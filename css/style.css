@@ -1246,3 +1246,65 @@
 	body.is-touch .poptrox-popup .closer {
 		opacity: 1.0 !important;
 	}
+	
+	/* Navigation Menu Styling */
+#nav ul li a {
+    color: rgba(255, 255, 255, 0.5);
+    border-bottom: none;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#nav ul li a:hover {
+    color: #49bf9d !important;
+}
+
+/* 3-Column Video Tiles */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 1em;
+    border-radius: 0.35em;
+    background: #000;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive Overrides for Mobile Displays */
+@media screen and (max-width: 736px) {
+    #header {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 3em 1em;
+        text-align: center;
+        background-attachment: scroll;
+    }
+    
+    #nav ul {
+        text-align: center;
+        margin-top: 1em;
+    }
+
+    #main {
+        margin-left: 0;
+        width: 100%;
+        padding: 2em 1.5em;
+    }
+
+    #footer {
+        position: relative;
+        width: 100%;
+        text-align: center;
+        padding: 2em 0;
+    }
+}
