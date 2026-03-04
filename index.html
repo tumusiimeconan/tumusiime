@@ -4,7 +4,6 @@
 		<title>TUMU SIIME</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		
 		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 		
 		<script src="js/jquery.min.js"></script>
@@ -20,25 +19,27 @@
 	<body id="top">
 
 		<header id="header">
-			<a href="#" class="image avatar"><img src="images/avatar.jpg" alt="" /></a>
-			<h1><strong>Tumu Siime</strong></h1>
-			<nav id="nav">
-				<ul style="list-style: none; padding: 0;">
-					<li><a href="#one">About</a></li>
-					<li><a href="#news">News</a></li>
-					<li><a href="#two">Projects</a></li>
-					<li><a href="#tsolhub">TsolHub</a></li>
-					<li><a href="#gallery">Gallery</a></li>
-					<li><a href="#three">Contact</a></li>
-				</ul>
-			</nav>
+			<div class="header-content">
+				<h1><strong>Tumu Siime</strong></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="#one">About</a></li>
+						<li><a href="#news">News</a></li>
+						<li><a href="#projects">Projects</a></li>
+						<li><a href="#tsolhub">TsolHub</a></li>
+						<li><a href="#gallery">Gallery</a></li>
+						<li><a href="#video-grid">Videos</a></li>
+						<li><a href="#three">Contact</a></li>
+					</ul>
+				</nav>
+			</div>
 		</header>
 
 		<div id="main">
 
 			<section id="one">
 				<header class="major">
-					<h2>TUMU SIIME</h2>
+					<h2>About Me</h2>
 				</header>
 				<p>Media Executive | Creative | Comic</p>
 			</section>
@@ -46,33 +47,31 @@
 			<section id="news">
 				<h2>Latest News</h2>
 				<div class="row">
-					<article class="4u 12u$(xsmall) video-item">
-						<div class="video-wrapper">
-							<iframe src="https://www.youtube.com/embed/VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
-						</div>
-						<h3>News Update 1</h3>
+					<article class="6u 12u$(xsmall) news-story">
+						<span class="image fit"><img src="images/news_thumb1.jpg" alt="" /></span>
+						<h3>Big Launch at TsolHub</h3>
+						<p>We are expanding our production reach across the region. This new milestone allows us to tell more stories...</p>
+						<ul class="actions">
+							<li><a href="article-1.html" class="button small">Read More</a></li>
+						</ul>
 					</article>
-					<article class="4u 12u$(xsmall) video-item">
-						<div class="video-wrapper">
-							<iframe src="https://www.youtube.com/embed/VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
-						</div>
-						<h3>News Update 2</h3>
-					</article>
-					<article class="4u$ 12u$(xsmall) video-item">
-						<div class="video-wrapper">
-							<iframe src="https://www.youtube.com/embed/VIDEO_ID_3" frameborder="0" allowfullscreen></iframe>
-						</div>
-						<h3>News Update 3</h3>
+					<article class="6u$ 12u$(xsmall) news-story">
+						<span class="image fit"><img src="images/news_thumb2.jpg" alt="" /></span>
+						<h3>Behind the Podcast Scenes</h3>
+						<p>Take an inside look at how we produce "The Right People To Meet" and the gear we use for crystal clear audio...</p>
+						<ul class="actions">
+							<li><a href="article-2.html" class="button small">Read More</a></li>
+						</ul>
 					</article>
 				</div>
 			</section>
 
-			<section id="two">
-				<h2>Projects</h2>
+			<section id="projects">
+				<h2>Featured Projects</h2>
 				<div class="row">
 					<article class="6u 12u$(xsmall) work-item">
 						<a href="images/fulls/01.jpg" class="image fit thumb"><img src="images/thumbs/01.jpg" alt="" /></a>
-						<h3>The Right People To Meet</h3>
+						<h3>The Right People To Meet Podcast</h3>
 					</article>
 					<article class="6u$ 12u$(xsmall) work-item">
 						<a href="images/fulls/02.jpg" class="image fit thumb"><img src="images/thumbs/02.jpg" alt="" /></a>
@@ -83,22 +82,52 @@
 
 			<section id="tsolhub">
 				<h2>TsolHub International</h2>
-				<p>Tsol Hub is a premier media production and branding company founded by Tumu Siime.</p>
+				<p>Production, branding, and advertising company founded by Tumu Siime.</p>
 			</section>
 
 			<section id="gallery">
 				<h2>Gallery</h2>
 				<div class="row">
-					</div>
+					<article class="4u 12u$(xsmall) work-item">
+						<a href="images/fulls/03.jpg" class="image fit thumb"><img src="images/thumbs/03.jpg" alt="" /></a>
+					</article>
+					<article class="4u 12u$(xsmall) work-item">
+						<a href="images/fulls/04.jpg" class="image fit thumb"><img src="images/thumbs/04.jpg" alt="" /></a>
+					</article>
+					<article class="4u$ 12u$(xsmall) work-item">
+						<a href="images/fulls/05.jpg" class="image fit thumb"><img src="images/thumbs/05.jpg" alt="" /></a>
+					</article>
+				</div>
+			</section>
+
+			<section id="video-grid">
+				<h2>Videos</h2>
+				<div class="row">
+					<article class="4u 12u$(xsmall) video-item">
+						<div class="video-wrapper">
+							<iframe src="https://www.youtube.com/embed/VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
+						</div>
+					</article>
+					<article class="4u 12u$(xsmall) video-item">
+						<div class="video-wrapper">
+							<iframe src="https://www.youtube.com/embed/VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
+						</div>
+					</article>
+					<article class="4u$ 12u$(xsmall) video-item">
+						<div class="video-wrapper">
+							<iframe src="https://www.youtube.com/embed/VIDEO_ID_3" frameborder="0" allowfullscreen></iframe>
+						</div>
+					</article>
+				</div>
 			</section>
 
 			<section id="three">
 				<h2>Get In Touch</h2>
-				<form action="https://formspree.io/f/xjgeppyl" method="POST">
+				<form method="post" action="#">
 					<div class="row uniform 50%">
-						<div class="6u 12u$(xsmall)"><input type="text" name="name" placeholder="Name" required /></div>
-						<div class="6u$ 12u$(xsmall)"><input type="email" name="email" placeholder="Email" required /></div>
-						<div class="12u$"><textarea name="message" placeholder="Message" rows="4" required></textarea></div>
+						<div class="6u 12u$(xsmall)"><input type="text" name="name" placeholder="Name" /></div>
+						<div class="6u$ 12u$(xsmall)"><input type="email" name="email" placeholder="Email" /></div>
+						<div class="12u$"><textarea name="message" placeholder="Message" rows="4"></textarea></div>
 					</div>
 					<ul class="actions">
 						<li><input type="submit" value="Send Message" /></li>
@@ -106,15 +135,5 @@
 				</form>
 			</section>
 		</div>
-
-		<footer id="footer">
-			<ul class="icons">
-				<li><a href="https://x.com/realTumusiime" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-				<li><a href="https://www.facebook.com/realTumusiime" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-			</ul>
-			<ul class="copyright">
-				<li>&copy; Tumu Siime 2026</li>
-			</ul>
-		</footer>
 	</body>
 </html>
