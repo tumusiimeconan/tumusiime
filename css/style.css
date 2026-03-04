@@ -932,21 +932,28 @@
 /* Header */
 
 	#header {
-		background-color: #1f1815;
-		background-attachment: scroll,								fixed;
-		background-image: url("images/overlay.png"), url("../images/Tumu_Siime_Conan_Landscape_3.jpg");
-		background-position: top left,							top left;
-		background-repeat: repeat,								no-repeat;
-		background-size: auto,								auto 100%;
-		color: rgba(255, 255, 255, 0.5);
-		height: 100%;
-		left: 0;
-		padding: 8em 4em 0 0;
-		position: fixed;
-		text-align: right;
-		top: 0;
-		width: 35%;
-	}
+    background-color: #1f1815;
+    background-image: url("images/overlay.png"), url("../images/Tumu_Siime_Conan_Landscape_3.jpg");
+    
+    /* FIX 1: Keeps you pinned to the left so the menu sits over the empty space or aligns with you */
+    background-position: left center, left center; 
+    
+    /* FIX 2: Ensures the image fills the area without stretching */
+    background-size: cover, cover; 
+    
+    /* FIX 3: Makes the image stay still while you scroll */
+    background-attachment: fixed, fixed; 
+    
+    background-repeat: repeat, no-repeat;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 35%;
+    height: 100%;
+    padding: 8em 4em 0 0;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.5);
+}
 
 		#header strong, #header b {
 			color: #ffffff;
@@ -1519,6 +1526,12 @@
 @media screen and (min-width: 736px) {
     #header .header-content {
         padding-top: 20em; /* Pushes the menu down significantly */
+        background-attachment: scroll; /* Fixed backgrounds glitch on mobile */
+        background-position: 20% center; /* Adjusts slightly so you aren't jammed against the edge */
+        background-size: cover;
+        width: 100%;
+        height: 300px; /* Or whatever height you prefer for the mobile header */
+    
     }
 }
 
