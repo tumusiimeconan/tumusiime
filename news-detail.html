@@ -4,33 +4,23 @@
 		<title>News | Tumu Siime</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="css/style.css" />
+        
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic" rel="stylesheet" />
+
 		<style>
 			#main-article { max-width: 900px; margin: 0 auto; padding: 4em 2em; }
 			.back-link { text-decoration: none; font-weight: bold; display: inline-block; margin-bottom: 2em; color: #49bf9d; }
-			.article-header h1 { font-size: 2.5em; margin-bottom: 0.5em; }
-			.article-meta { color: #b2b2b2; font-style: italic; margin-bottom: 2em; display: block; }
-			.featured-image { width: 100%; border-radius: 10px; margin-bottom: 2.5em; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+			.featured-image { width: 100%; border-radius: 10px; margin-bottom: 2.5em; }
 		</style>
 	</head>
 	<body>
-
 		<div id="main-article">
 			<a href="index.html#news" class="back-link">&larr; Back to News</a>
-			
-			<header class="article-header">
-				<h1 id="render-title">Loading...</h1>
-				<span class="article-meta" id="render-date">Please wait...</span>
-			</header>
-
+			<header><h1 id="render-title">Loading...</h1><span id="render-date"></span></header>
 			<div id="render-image-container"></div>
-
 			<div id="render-body"></div>
-
-			<hr />
-			<footer style="text-align: center; color: #b2b2b2; font-size: 0.8em;">
-				&copy; Tumu Siime. All rights reserved.
-			</footer>
 		</div>
 
 		<script src="https://cdn.jsdelivr.net/npm/@contentful/rich-text-html-renderer@15.12.1/dist/rich-text-html-renderer.browser.min.js"></script>
@@ -40,48 +30,27 @@
 			const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8';
 			
 			const urlParams = new URLSearchParams(window.location.search);
-			const entryId = urlParams.get('id'); // Changed from slug to id
+			const entryId = urlParams.get('id');
 
-			if (!entryId) {
-				document.getElementById('render-title').innerText = "Article not found";
-				document.getElementById('render-body').innerHTML = "<p>Invalid link. Please go back to the news page.</p>";
-			} else {
-				// Fetching by unique entry ID instead of slug
-				const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries/${entryId}?access_token=${ACCESS_TOKEN}`;
+			if (entryId) {
+                // FIXED: Use HTTPS for API calls
+				const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries/${entryId}?access_token=${ACCESS_TOKEN}&include=1`;
 
 				fetch(url)
 					.then(res => res.json())
 					.then(data => {
 						const fields = data.fields;
-
-						// 1. Set Title
 						document.getElementById('render-title').innerText = fields.title;
-						
-						// 2. Set Date
-						if(fields.date) {
-							const date = new Date(fields.date);
-							document.getElementById('render-date').innerText = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-						}
-
-						// 3. Set Image
-						if (fields.mainImage?.sys?.id) {
-							const assetId = fields.mainImage.sys.id;
-							// Note: When fetching by ID directly, assets are usually included in a specific way
-							fetch(`https://cdn.contentful.com/spaces/${SPACE_ID}/assets/${assetId}?access_token=${ACCESS_TOKEN}`)
-								.then(res => res.json())
-								.then(asset => {
-									document.getElementById('render-image-container').innerHTML = `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
-								});
-						}
-
-						// 4. Render Body
-						const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(fields.body);
-						document.getElementById('render-body').innerHTML = renderedHtml;
+                        
+                        // Render body
+                        if (typeof contentfulRichTextHtmlRenderer !== 'undefined') {
+    						const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(fields.body);
+    						document.getElementById('render-body').innerHTML = renderedHtml;
+                        } else {
+                            console.error("Renderer library not loaded!");
+                        }
 					})
-					.catch(err => {
-						console.error(err);
-						document.getElementById('render-body').innerHTML = "<p>Sorry, we couldn't load this story.</p>";
-					});
+					.catch(err => console.error("Fetch Error:", err));
 			}
 		</script>
 	</body>
