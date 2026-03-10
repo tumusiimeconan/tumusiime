@@ -6,7 +6,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="css/style.css" />
 		<style>
-			/* Keeping your exact styling from TheRightPeopleToMeetPodcast.html */
 			#main-article { max-width: 900px; margin: 0 auto; padding: 4em 2em; }
 			.back-link { text-decoration: none; font-weight: bold; display: inline-block; margin-bottom: 2em; color: #49bf9d; }
 			.article-header h1 { font-size: 2.5em; margin-bottom: 0.5em; }
@@ -44,41 +43,56 @@
 			const urlParams = new URLSearchParams(window.location.search);
 			const slug = urlParams.get('slug');
 
-			const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&fields.slug=${slug}`;
+			if (!slug || slug === 'undefined') {
+				document.getElementById('render-title').innerText = "Article not found";
+				document.getElementById('render-body').innerHTML = "<p>Invalid link. Please go back to the news page.</p>";
+			} else {
 
-			fetch(url)
-				.then(res => res.json())
-				.then(data => {
-					const item = data.items[0];
-					const fields = item.fields;
+				const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&fields.slug=${slug}&include=1`;
 
-					// 1. Set Title
-					document.getElementById('render-title').innerText = fields.title;
-					
-					// 2. Set Date
-					if(fields.date) {
-						const date = new Date(fields.date);
-						document.getElementById('render-date').innerText = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-					}
+				fetch(url)
+					.then(res => res.json())
+					.then(data => {
+						const item = data.items[0];
+						const fields = item.fields;
 
-					// 3. Set Image
-					const assetId = fields.mainImage?.sys?.id;
-					const asset = data.includes.Asset.find(a => a.sys.id === assetId);
-					if (asset) {
-						document.getElementById('render-image-container').innerHTML = `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
-					}
+						// 1. Set Title
+						document.getElementById('render-title').innerText = fields.title;
+						
+						// 2. Set Date
+						if(fields.date) {
+							const date = new Date(fields.date);
+							document.getElementById('render-date').innerText = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+						}
 
-					// 4. Render Rich Text Body
-					// This uses the library we loaded above to turn Contentful JSON into real HTML
-					const rawRichText = fields.body; 
-					const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(rawRichText);
-					document.getElementById('render-body').innerHTML = renderedHtml;
+						// 3. Set Image
+						const assetId = fields.mainImage?.sys?.id;
+						const asset = data.includes.Asset.find(a => a.sys.id === assetId);
+						if (asset) {
+							document.getElementById('render-image-container').innerHTML = `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
+						}
 
-				})
-				.catch(err => {
-					console.error(err);
-					document.getElementById('render-body').innerHTML = "<p>Sorry, we couldn't load this story.</p>";
-				});
+						// 4. Render Rich Text Body with Image Support
+						const options = {
+							renderNode: {
+								'embedded-asset-block': (node) => {
+									const assetId = node.data.target.sys.id;
+									const asset = data.includes.Asset.find(a => a.sys.id === assetId);
+									return `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
+								}
+							}
+						};
+
+						const rawRichText = fields.body; 
+						const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(rawRichText, options);
+						document.getElementById('render-body').innerHTML = renderedHtml;
+
+					})
+					.catch(err => {
+						console.error(err);
+						document.getElementById('render-body').innerHTML = "<p>Sorry, we couldn't load this story.</p>";
+					});
+			}
 		</script>
 	</body>
 </html>
