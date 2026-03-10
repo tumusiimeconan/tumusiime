@@ -25,8 +25,7 @@
 
 			<div id="render-image-container"></div>
 
-			<div id="render-body">
-				</div>
+			<div id="render-body"></div>
 
 			<hr />
 			<footer style="text-align: center; color: #b2b2b2; font-size: 0.8em;">
@@ -41,20 +40,19 @@
 			const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8';
 			
 			const urlParams = new URLSearchParams(window.location.search);
-			const slug = urlParams.get('slug');
+			const entryId = urlParams.get('id'); // Changed from slug to id
 
-			if (!slug || slug === 'undefined') {
+			if (!entryId) {
 				document.getElementById('render-title').innerText = "Article not found";
 				document.getElementById('render-body').innerHTML = "<p>Invalid link. Please go back to the news page.</p>";
 			} else {
-
-				const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&fields.slug=${slug}&include=1`;
+				// Fetching by unique entry ID instead of slug
+				const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries/${entryId}?access_token=${ACCESS_TOKEN}`;
 
 				fetch(url)
 					.then(res => res.json())
 					.then(data => {
-						const item = data.items[0];
-						const fields = item.fields;
+						const fields = data.fields;
 
 						// 1. Set Title
 						document.getElementById('render-title').innerText = fields.title;
@@ -66,27 +64,19 @@
 						}
 
 						// 3. Set Image
-						const assetId = fields.mainImage?.sys?.id;
-						const asset = data.includes.Asset.find(a => a.sys.id === assetId);
-						if (asset) {
-							document.getElementById('render-image-container').innerHTML = `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
+						if (fields.mainImage?.sys?.id) {
+							const assetId = fields.mainImage.sys.id;
+							// Note: When fetching by ID directly, assets are usually included in a specific way
+							fetch(`https://cdn.contentful.com/spaces/${SPACE_ID}/assets/${assetId}?access_token=${ACCESS_TOKEN}`)
+								.then(res => res.json())
+								.then(asset => {
+									document.getElementById('render-image-container').innerHTML = `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
+								});
 						}
 
-						// 4. Render Rich Text Body with Image Support
-						const options = {
-							renderNode: {
-								'embedded-asset-block': (node) => {
-									const assetId = node.data.target.sys.id;
-									const asset = data.includes.Asset.find(a => a.sys.id === assetId);
-									return `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
-								}
-							}
-						};
-
-						const rawRichText = fields.body; 
-						const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(rawRichText, options);
+						// 4. Render Body
+						const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(fields.body);
 						document.getElementById('render-body').innerHTML = renderedHtml;
-
 					})
 					.catch(err => {
 						console.error(err);

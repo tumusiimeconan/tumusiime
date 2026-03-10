@@ -1,17 +1,12 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-	
-	
-	
-	
-	
 		<title>TUMU SIIME</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jquery.poptrox.min.js"></script>
@@ -24,18 +19,16 @@
 		</noscript>
 		
 		<meta property="og:type" content="website">
-<meta property="og:url" content="https://tumusiime.com/">
-<meta property="og:title" content="Tumu Siime | Media Executive & Creative">
-<meta property="og:description" content="Official portfolio of Tumu Siime. Founder of TsolHub International, Media Executive, and Consultant.">
-<meta property="og:image" content="https://tumusiime.com/images/Tumu_Siime_OG.jpg">
+        <meta property="og:url" content="https://tumusiime.com/">
+        <meta property="og:title" content="Tumu Siime | Media Executive & Creative">
+        <meta property="og:description" content="Official portfolio of Tumu Siime. Founder of TsolHub International, Media Executive, and Consultant.">
+        <meta property="og:image" content="https://tumusiime.com/images/Tumu_Siime_OG.jpg">
 
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://tumusiime.com/">
-<meta property="twitter:title" content="Tumu Siime">
-<meta property="twitter:description" content="Media Executive | Creative | Comic">
-<meta property="twitter:image" content="https://tumusiime.com/images/Tumu_Siime_OG.jpg">
-		
-		
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://tumusiime.com/">
+        <meta property="twitter:title" content="Tumu Siime">
+        <meta property="twitter:description" content="Media Executive | Creative | Comic">
+        <meta property="twitter:image" content="https://tumusiime.com/images/Tumu_Siime_OG.jpg">
 	</head>
 	<body id="top">
 
@@ -43,35 +36,29 @@
 			<div class="header-content">
 				<h1><strong>Tumu Siime</strong></h1>
 				<nav id="nav">
-    <ul>
-        <li><a href="#one">About</a></li>
-        <li><a href="#news">News</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#tsolhub">TsolHub</a></li>
-        <li><a href="#consultancy">Consultancy</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#video-grid">Videos</a></li>
-        <li><a href="#three">Contact</a></li>
-    </ul>
-</nav>
+                    <ul>
+                        <li><a href="#one">About</a></li>
+                        <li><a href="#news">News</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#tsolhub">TsolHub</a></li>
+                        <li><a href="#consultancy">Consultancy</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#video-grid">Videos</a></li>
+                        <li><a href="#three">Contact</a></li>
+                    </ul>
+                </nav>
 			</div>
 		</header>
 
 		<div id="main">
 
 			<section id="one">
-    <header class="major">
-        <h2>About Me</h2>
-    </header>
-    <p>
-        <strong>Media Executive | Creative | Comic</strong>
-    </p>
-    <p>
-        I am a versatile media professional and content creator based in Kampala, Uganda, dedicated to shifting narratives through satire, sports, and substantive conversation. As the founder of <strong>TsolHub International</strong>, I lead a team focused on high-impact production, branding, and advertising.
-    </p>
-    
-</section>
-
+                <header class="major">
+                    <h2>About Me</h2>
+                </header>
+                <p><strong>Media Executive | Creative | Comic</strong></p>
+                <p>I am a versatile media professional and content creator based in Kampala, Uganda, dedicated to shifting narratives through satire, sports, and substantive conversation. As the founder of <strong>TsolHub International</strong>, I lead a team focused on high-impact production, branding, and advertising.</p>
+            </section>
 
 			<section id="news">
 				<h2>Latest News</h2>
@@ -80,63 +67,49 @@
 				</div>
 			</section>
 			
-			
-			
 			<script>
-        const SPACE_ID = 'be0zo8d325rr'; // REPLACE WITH YOUR ID
-        const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8'; // REPLACE WITH YOUR TOKEN
-        
-        // This URL fetches your "newsPost" content type from Contentful
-        const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&order=-fields.date`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('contentful-news-container');
+                const SPACE_ID = 'be0zo8d325rr'; 
+                const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8'; 
                 
-                // If no news found
-                if (!data.items || data.items.length === 0) {
-                    container.innerHTML = '<p>No news updates found.</p>';
-                    return;
-                }
+                const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&order=-fields.date`;
 
-                // Map through the items to create the HTML
-                container.innerHTML = data.items.map((item, index) => {
-                    const fields = item.fields;
-                    
-                    // Logic to get the image URL from Contentful's Assets
-                    const assetId = fields.mainImage?.sys?.id;
-                    const asset = data.includes.Asset.find(a => a.sys.id === assetId);
-                    const imageUrl = asset ? `https:${asset.fields.file.url}` : 'images/placeholder.jpg';
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        const container = document.getElementById('contentful-news-container');
+                        
+                        if (!data.items || data.items.length === 0) {
+                            container.innerHTML = '<p>No news updates found.</p>';
+                            return;
+                        }
 
-                    // Using your original classes: 6u 12u$(xsmall) and news-story
-                    // The last item in a row usually needs the '$' sign (e.g., 6u$) 
-                    const columnClass = (index % 2 === 1) ? '6u$ 12u$(xsmall)' : '6u 12u$(xsmall)';
+                        container.innerHTML = data.items.map((item, index) => {
+                            const fields = item.fields;
+                            const assetId = fields.mainImage?.sys?.id;
+                            const asset = data.includes?.Asset?.find(a => a.sys.id === assetId);
+                            const imageUrl = asset ? `https:${asset.fields.file.url}` : 'images/placeholder.jpg';
 
-                    return `
-                        <article class="${columnClass} news-story">
-                            <span class="image fit"><img src="${imageUrl}" alt="${fields.title}" /></span>
-                            <h3>${fields.title}</h3>
-                            <p>${fields.excerpt}</p>
-                            <ul class="actions">
-                                <li><a href="news-detail.html?slug=${fields.slug}" class="button small">Read More</a></li>
-                            </ul>
-                        </article>
-                    `;
-                }).join('');
-            })
-            .catch(err => {
-                console.error("Contentful Error:", err);
-                document.getElementById('contentful-news-container').innerHTML = '<p>Error loading news.</p>';
-            });
-    </script>
-			
-			
-			
-			
-			
+                            const columnClass = (index % 2 === 1) ? '6u$ 12u$(xsmall)' : '6u 12u$(xsmall)';
 
-			<section id="projects">
+                            return `
+                                <article class="${columnClass} news-story">
+                                    <span class="image fit"><img src="${imageUrl}" alt="${fields.title}" /></span>
+                                    <h3>${fields.title}</h3>
+                                    <p>${fields.excerpt}</p>
+                                    <ul class="actions">
+                                        <li><a href="news-detail.html?id=${item.sys.id}" class="button small">Read More</a></li>
+                                    </ul>
+                                </article>
+                            `;
+                        }).join('');
+                    })
+                    .catch(err => {
+                        console.error("Contentful Error:", err);
+                        document.getElementById('contentful-news-container').innerHTML = '<p>Error loading news.</p>';
+                    });
+            </script>
+
+            <section id="projects">
 				<h2>Featured Projects</h2>
 				<div class="row">
 					<article class="6u 12u$(xsmall) work-item">
@@ -152,167 +125,6 @@
 					<li><a href="https://www.youtube.com/channel/UCnIYhl16aiXEcdIz-tqTr5Q" target="_blank" class="button">Watch Now!</a></li>
 				</ul>
 			</section>
-
-			<section id="tsolhub">
-				<h2>TsolHub International</h2>
-				<p>Production, branding, and advertising company founded by Tumu Siime.</p>
-				<div class="row">
-					<article class="4u 12u$(xsmall) work-item">
-						<a href="images/fulls/tsol01.jpg" class="image fit thumb"><img src="images/thumbs/07.jpg" alt="TsolHub Production" /></a>
-						<p style="text-align: center;">Media Production</p>
-					</article>
-					<article class="4u 12u$(xsmall) work-item">
-						<a href="images/fulls/tsol02.jpg" class="image fit thumb"><img src="images/thumbs/05.jpg" alt="Tumu Siime at TsolHub Head Offices" /></a>
-						<p style="text-align: center;">Branding & Identity</p>
-					</article>
-					<article class="4u$ 12u$(xsmall) work-item">
-						<a href="images/fulls/tsol03.jpg" class="image fit thumb"><img src="images/thumbs/08.jpg" alt="TsolHub Advertising" /></a>
-						<p style="text-align: center;">Advertising</p>
-					</article>
-				</div>
-				<ul class="actions">
-					<li><a href="https://tsolhubint.com" target="_blank" class="button">Visit TsolHub</a></li>
-				</ul>
-			</section>
-			
-			
-			<section id="consultancy">
-    <h2>Consultancy & Advisory</h2>
-    <p>Strategic advisory at the intersection of creativity and commerce.</p>
-
-    <div class="row">
-        <div class="4u 12u$(xsmall)">
-            <i class="fa fa-film fa-2x" style="color: #49bf9d; margin-bottom: 0.5em;"></i>
-            <h4>Media & Film</h4>
-            <p style="font-size: 0.9em;">Production, scripting, and cinematic execution.</p>
-        </div>
-        <div class="4u 12u$(xsmall)">
-            <i class="fa fa-lightbulb-o fa-2x" style="color: #49bf9d; margin-bottom: 0.5em;"></i>
-            <h4>Entrepreneurship</h4>
-            <p style="font-size: 0.9em;">Building sustainable models for creatives.</p>
-        </div>
-        <div class="4u$ 12u$(xsmall)">
-            <i class="fa fa-users fa-2x" style="color: #49bf9d; margin-bottom: 0.5em;"></i>
-            <h4>Talent Management</h4>
-            <p style="font-size: 0.9em;">Scaling personal brands and creators.</p>
-        </div>
-
-        <div class="4u 12u$(xsmall)">
-            <i class="fa fa-rocket fa-2x" style="color: #49bf9d; margin-bottom: 0.5em;"></i>
-            <h4>Startups</h4>
-            <p style="font-size: 0.9em;">Brand identity and go-to-market strategies.</p>
-        </div>
-        <div class="4u 12u$(xsmall)">
-            <i class="fa fa-share-alt fa-2x" style="color: #49bf9d; margin-bottom: 0.5em;"></i>
-            <h4>Social Media</h4>
-            <p style="font-size: 0.9em;">Content strategy and community growth.</p>
-        </div>
-        <div class="4u$ 12u$(xsmall)">
-            <i class="fa fa-bullhorn fa-2x" style="color: #49bf9d; margin-bottom: 0.5em;"></i>
-            <h4>Digital Campaigns</h4>
-            <p style="font-size: 0.9em;">Data-driven reach and media activations.</p>
-        </div>
-    </div>
-
-    <ul class="actions" style="margin-top: 2em;">
-        <li><a href="#three" class="button">Inquire for Consultancy</a></li>
-    </ul>
-</section>
-
-
-</section>
-
-			<section id="gallery">
-    <h2>Gallery</h2>
-    <div class="row" id="gallery-container">
-        <article class="4u 12u$(xsmall) work-item">
-            <a href="images/TumuSiimeEkkula.jpeg" class="image fit thumb">
-                <img src="images/TumuSiimeEkkula.jpeg" alt="Tumu Siime at Ekkula Awards" />
-            </a>
-        </article>
-
-        <article class="4u 12u$(xsmall) work-item">
-            <a href="images/Tumu_Siime_Comedy.jpg" class="image fit thumb">
-                <img src="images/Tumu_Siime_Comedy.jpg" alt="Tumu Siime Comedy Performance" />
-            </a>
-        </article>
-
-        <article class="4u$ 12u$(xsmall) work-item">
-            <a href="images/TumuSiime_At_MTN_tree_Planting_Serere_Arua_Masaka_Kibaale.jpg" class="image fit thumb">
-                <img src="images/TumuSiime_At_MTN_tree_Planting_Serere_Arua_Masaka_Kibaale.jpg" alt="MTN Tree Planting Initiative" />
-            </a>
-        </article>
-        
-        </div>
-    
-    <ul class="actions">
-        <li><a href="https://www.instagram.com/real_tumusiime/" target="_blank" class="button">More on Instagram</a></li>
-    </ul>
-</section>
-
-			<section id="video-grid">
-    <h2>Videos</h2>
-    <div class="row">
-        <article class="4u 12u$(xsmall) video-item">
-            <a href="https://www.youtube.com/watch?v=lmBDNadroew" target="_blank" class="image fit thumb">
-                <img src="https://img.youtube.com/vi/lmBDNadroew/hqdefault.jpg" alt="Video Title" />
-            </a>
-            <p style="text-align: center;">Watch Video</p>
-        </article>
-        
-        <article class="4u 12u$(xsmall) video-item">
-            <a href="https://www.youtube.com/watch?v=ctnUpAnTi3w" target="_blank" class="image fit thumb">
-                <img src="https://img.youtube.com/vi/ctnUpAnTi3w/hqdefault.jpg" alt="Video Title" />
-            </a>
-            <p style="text-align: center;">Watch Video</p>
-        </article>
-        
-        <article class="4u$ 12u$(xsmall) video-item">
-            <a href="https://www.youtube.com/watch?v=LBZUOD5QemY" target="_blank" class="image fit thumb">
-                <img src="https://img.youtube.com/vi/LBZUOD5QemY/hqdefault.jpg" alt="Video Title" />
-            </a>
-            <p style="text-align: center;">Watch Video</p>
-        </article>
-    </div>
-</section>
-
-			<section id="three">
-    <h2>Get In Touch</h2>
-    <div class="row">
-        <div class="8u 12u$(small)">
-            <form action="https://formspree.io/f/xjgeppyl" method="POST">
-                <div class="row uniform 50%">
-                    <div class="6u 12u$(xsmall)">
-                        <input type="text" name="name" id="name" placeholder="Name" required style="background: #f7f7f7; border: solid 2px #efefef; color: #a2a2a2;" />
-                    </div>
-                    <div class="6u$ 12u$(xsmall)">
-                        <input type="email" name="email" id="email" placeholder="Email" required style="background: #f7f7f7; border: solid 2px #efefef; color: #a2a2a2;" />
-                    </div>
-                    <div class="12u$">
-                        <textarea name="message" id="message" placeholder="Message" rows="4" required style="background: #f7f7f7; border: solid 2px #efefef; color: #a2a2a2;"></textarea>
-                    </div>
-                </div>
-                <ul class="actions" style="margin-top: 1.5em;">
-                    <li><input type="submit" value="Send Message" class="special" /></li>
-                </ul>
-                <input type="hidden" name="_subject" value="New Website Inquiry - Tumu Siime" />
-            </form>
-        </div>
-        
-        <div class="4u$ 12u$(small)">
-            <ul class="labeled-icons">
-                <li>
-                    <h3 class="icon fa-home"><span class="label">Address</span></h3>
-                    Kampala, Uganda
-                </li>
-                <li>
-                    <h3 class="icon fa-envelope-o"><span class="label">Email</span></h3>
-                    <a href="mailto:your-email@example.com">Contact via Email</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</section>
-		</div>
-	</body>
+            </div>
+    </body>
 </html>
