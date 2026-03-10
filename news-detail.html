@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>News | Tumu Siime</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="css/style.css" />
+		<style>
+			/* Keeping your exact styling from TheRightPeopleToMeetPodcast.html */
+			#main-article { max-width: 900px; margin: 0 auto; padding: 4em 2em; }
+			.back-link { text-decoration: none; font-weight: bold; display: inline-block; margin-bottom: 2em; color: #49bf9d; }
+			.article-header h1 { font-size: 2.5em; margin-bottom: 0.5em; }
+			.article-meta { color: #b2b2b2; font-style: italic; margin-bottom: 2em; display: block; }
+			.featured-image { width: 100%; border-radius: 10px; margin-bottom: 2.5em; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+		</style>
+	</head>
+	<body>
+
+		<div id="main-article">
+			<a href="index.html#news" class="back-link">&larr; Back to News</a>
+			
+			<header class="article-header">
+				<h1 id="render-title">Loading...</h1>
+				<span class="article-meta" id="render-date">Please wait...</span>
+			</header>
+
+			<div id="render-image-container"></div>
+
+			<div id="render-body">
+				</div>
+
+			<hr />
+			<footer style="text-align: center; color: #b2b2b2; font-size: 0.8em;">
+				&copy; Tumu Siime. All rights reserved.
+			</footer>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/@contentful/rich-text-html-renderer@15.12.1/dist/rich-text-html-renderer.browser.min.js"></script>
+
+		<script>
+			const SPACE_ID = 'be0zo8d325rr';
+			const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8';
+			
+			const urlParams = new URLSearchParams(window.location.search);
+			const slug = urlParams.get('slug');
+
+			const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&fields.slug=${slug}`;
+
+			fetch(url)
+				.then(res => res.json())
+				.then(data => {
+					const item = data.items[0];
+					const fields = item.fields;
+
+					// 1. Set Title
+					document.getElementById('render-title').innerText = fields.title;
+					
+					// 2. Set Date
+					if(fields.date) {
+						const date = new Date(fields.date);
+						document.getElementById('render-date').innerText = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+					}
+
+					// 3. Set Image
+					const assetId = fields.mainImage?.sys?.id;
+					const asset = data.includes.Asset.find(a => a.sys.id === assetId);
+					if (asset) {
+						document.getElementById('render-image-container').innerHTML = `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
+					}
+
+					// 4. Render Rich Text Body
+					// This uses the library we loaded above to turn Contentful JSON into real HTML
+					const rawRichText = fields.body; 
+					const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(rawRichText);
+					document.getElementById('render-body').innerHTML = renderedHtml;
+
+				})
+				.catch(err => {
+					console.error(err);
+					document.getElementById('render-body').innerHTML = "<p>Sorry, we couldn't load this story.</p>";
+				});
+		</script>
+	</body>
+</html>

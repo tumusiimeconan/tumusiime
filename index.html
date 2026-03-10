@@ -3,6 +3,9 @@
 	<head>
 	
 	
+	
+	
+	
 		<title>TUMU SIIME</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -69,27 +72,69 @@
     
 </section>
 
+
 			<section id="news">
 				<h2>Latest News</h2>
-				<div class="row">
-					<article class="6u 12u$(xsmall) news-story">
-						<span class="image fit"><img src="images/FifthOfficialFootballQuizTournamentUganda.jpg" alt="" /></span>
-						<h3>Fifth Official Football Quiz Tournament</h3>
-						<p>The long-awaited Fifth Official Football Quiz Tournament is officially underway, bringing a new level of...</p>
-						<ul class="actions">
-							<li><a href="FifthOfficialFootballQuizTournament.html" class="button small">Read More</a></li>
-						</ul>
-					</article>
-					<article class="6u$ 12u$(xsmall) news-story">
-						<span class="image fit"><img src="images/TheRightPeopleToMeetWithDorcasMagoba.jpg" alt="" /></span>
-						<h3>The Right People To Meet Podcast</h3>
-						<p>In an era of digital noise and "overnight success" narratives, The Right People To Meet (TRP) podcast has emerged as a...</p>
-						<ul class="actions">
-							<li><a href="TheRightPeopleToMeetPodcast.html" class="button small">Read More</a></li>
-						</ul>
-					</article>
+				<div class="row" id="contentful-news-container">
+					<p>Loading the latest updates...</p>
 				</div>
 			</section>
+			
+			
+			
+			<script>
+        const SPACE_ID = 'be0zo8d325rr'; // REPLACE WITH YOUR ID
+        const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8'; // REPLACE WITH YOUR TOKEN
+        
+        // This URL fetches your "newsPost" content type from Contentful
+        const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&order=-fields.date`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('contentful-news-container');
+                
+                // If no news found
+                if (!data.items || data.items.length === 0) {
+                    container.innerHTML = '<p>No news updates found.</p>';
+                    return;
+                }
+
+                // Map through the items to create the HTML
+                container.innerHTML = data.items.map((item, index) => {
+                    const fields = item.fields;
+                    
+                    // Logic to get the image URL from Contentful's Assets
+                    const assetId = fields.mainImage?.sys?.id;
+                    const asset = data.includes.Asset.find(a => a.sys.id === assetId);
+                    const imageUrl = asset ? `https:${asset.fields.file.url}` : 'images/placeholder.jpg';
+
+                    // Using your original classes: 6u 12u$(xsmall) and news-story
+                    // The last item in a row usually needs the '$' sign (e.g., 6u$) 
+                    const columnClass = (index % 2 === 1) ? '6u$ 12u$(xsmall)' : '6u 12u$(xsmall)';
+
+                    return `
+                        <article class="${columnClass} news-story">
+                            <span class="image fit"><img src="${imageUrl}" alt="${fields.title}" /></span>
+                            <h3>${fields.title}</h3>
+                            <p>${fields.excerpt}</p>
+                            <ul class="actions">
+                                <li><a href="news-detail.html?slug=${fields.slug}" class="button small">Read More</a></li>
+                            </ul>
+                        </article>
+                    `;
+                }).join('');
+            })
+            .catch(err => {
+                console.error("Contentful Error:", err);
+                document.getElementById('contentful-news-container').innerHTML = '<p>Error loading news.</p>';
+            });
+    </script>
+			
+			
+			
+			
+			
 
 			<section id="projects">
 				<h2>Featured Projects</h2>
