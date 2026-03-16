@@ -13,14 +13,20 @@
 			#main-article { max-width: 900px; margin: 0 auto; padding: 4em 2em; }
 			.back-link { text-decoration: none; font-weight: bold; display: inline-block; margin-bottom: 2em; color: #49bf9d; }
 			.featured-image { width: 100%; border-radius: 10px; margin-bottom: 2.5em; }
+            #render-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 1em 0; }
 		</style>
 	</head>
 	<body>
 		<div id="main-article">
 			<a href="index.html#news" class="back-link">&larr; Back to News</a>
-			<header><h1 id="render-title">Loading...</h1><span id="render-date"></span></header>
-			<div id="render-image-container"></div>
-			<div id="render-body"></div>
+			<header>
+                <h1 id="render-title">Loading...</h1>
+                <span id="render-date"></span>
+            </header>
+			
+            <div id="render-image-container"></div>
+			
+            <div id="render-body"></div>
 		</div>
 
 		<script src="https://cdn.jsdelivr.net/npm/@contentful/rich-text-html-renderer@15.12.1/dist/rich-text-html-renderer.browser.min.js"></script>
@@ -33,25 +39,49 @@
 			const entryId = urlParams.get('id');
 
 			if (entryId) {
-                // FIXED: Use HTTPS for API calls
 				const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries/${entryId}?access_token=${ACCESS_TOKEN}&include=1`;
 
 				fetch(url)
 					.then(res => res.json())
 					.then(data => {
 						const fields = data.fields;
-						document.getElementById('render-title').innerText = fields.title;
+						
+                        // 1. Set the Title
+                        document.getElementById('render-title').innerText = fields.title || "Untitled Post";
+
+                        // 2. Render the Featured Image (mainImage)
+                        if (fields.mainImage && data.includes && data.includes.Asset) {
+                            const assetId = fields.mainImage.sys.id;
+                            const asset = data.includes.Asset.find(a => a.sys.id === assetId);
+                            if (asset && asset.fields.file) {
+                                const imageUrl = 'https:' + asset.fields.file.url;
+                                document.getElementById('render-image-container').innerHTML = 
+                                    `<img src="${imageUrl}" alt="${fields.title}" class="featured-image" />`;
+                            }
+                        }
                         
-                        // Render body
-                        if (typeof contentfulRichTextHtmlRenderer !== 'undefined') {
-    						const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(fields.body);
-    						document.getElementById('render-body').innerHTML = renderedHtml;
+                        // 3. Render the Body Text (Rich Text)
+                        const bodyContainer = document.getElementById('render-body');
+                        if (fields.body) {
+                            if (typeof contentfulRichTextHtmlRenderer !== 'undefined') {
+                                // Uses the library to convert Contentful JSON to HTML
+        						const renderedHtml = contentfulRichTextHtmlRenderer.documentToHtmlString(fields.body);
+        						bodyContainer.innerHTML = renderedHtml;
+                            } else {
+                                console.error("Renderer library not loaded!");
+                                bodyContainer.innerHTML = "<p>Error: Could not load text renderer.</p>";
+                            }
                         } else {
-                            console.error("Renderer library not loaded!");
+                            bodyContainer.innerHTML = "<p>No content available for this post.</p>";
                         }
 					})
-					.catch(err => console.error("Fetch Error:", err));
-			}
+					.catch(err => {
+                        console.error("Fetch Error:", err);
+                        document.getElementById('render-title').innerText = "Error Loading Article";
+                    });
+			} else {
+                document.getElementById('render-title').innerText = "No Article ID Provided";
+            }
 		</script>
 	</body>
 </html>
