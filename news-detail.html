@@ -1,65 +1,85 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>News | Tumu Siime</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/style.css" />
-		<style>
-			#main-article { max-width: 900px; margin: 0 auto; padding: 4em 2em; }
-			.back-link { text-decoration: none; font-weight: bold; display: inline-block; margin-bottom: 2em; color: #49bf9d; }
-			.featured-image { width: 100%; border-radius: 10px; margin-bottom: 2.5em; height: auto; display: block; }
-            #render-body { line-height: 1.8; color: #444; font-size: 1.1em; }
-		</style>
-	</head>
-	<body>
-		<div id="main-article">
-			<a href="index.html#news" class="back-link">&larr; Back to News</a>
-			<header><h1 id="render-title">Loading...</h1></header>
-			<div id="render-image-container"></div>
-			<div id="render-body"></div>
-		</div>
+<head>
+    <title>News Detail | Tumu Siime</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <style>
+        #main-article { max-width: 800px; margin: 0 auto; padding: 50px 20px; font-family: "Source Sans Pro", sans-serif; }
+        .back-btn { display: inline-block; margin-bottom: 30px; color: #49bf9d; font-weight: bold; text-decoration: none; }
+        .featured-img { width: 100%; border-radius: 8px; margin-bottom: 30px; height: auto; display: block; }
+        #render-body { line-height: 1.8; color: #333; font-size: 1.15em; }
+        #render-body p { margin-bottom: 1.5em; }
+        h1 { margin-bottom: 20px; font-weight: 700; }
+    </style>
+</head>
+<body>
 
-		<script src="https://cdn.jsdelivr.net/npm/@contentful/rich-text-html-renderer@15.12.1/dist/rich-text-html-renderer.browser.min.js"></script>
+    <div id="main-article">
+        <a href="index.html#news" class="back-btn">&larr; Back to News</a>
+        
+        <h1 id="render-title">Loading...</h1>
+        
+        <div id="render-image-container"></div>
+        <div id="render-body"></div>
+    </div>
 
-		<script>
-			const SPACE_ID = 'be0zo8d325rr';
-			const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8';
-			
-			const urlParams = new URLSearchParams(window.location.search);
-			const entryId = urlParams.get('id');
+    <script src="https://cdn.jsdelivr.net/npm/@contentful/rich-text-html-renderer@15.12.1/dist/rich-text-html-renderer.browser.min.js"></script>
 
-			if (entryId) {
-				const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries/${entryId}?access_token=${ACCESS_TOKEN}&include=1`;
+    <script>
+        const SPACE_ID = 'be0zo8d325rr';
+        const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8';
+        
+        // Get the ID from the URL (index.html?id=xxxx)
+        const urlParams = new URLSearchParams(window.location.search);
+        const entryId = urlParams.get('id');
 
-				fetch(url)
-					.then(res => res.json())
-					.then(data => {
-						const fields = data.fields;
-						document.getElementById('render-title').innerText = fields.title || "Untitled";
-                        
-                        // Render Main Image
-                        if (fields.mainImage && data.includes && data.includes.Asset) {
-                            const assetId = fields.mainImage.sys.id;
-                            const asset = data.includes.Asset.find(a => a.sys.id === assetId);
-                            if (asset && asset.fields.file) {
-                                document.getElementById('render-image-container').innerHTML = 
-                                    `<img src="https:${asset.fields.file.url}" class="featured-image" />`;
-                            }
+        if (entryId) {
+            // Fetch the specific news entry plus its associated image (include=1)
+            const apiUrl = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries/${entryId}?access_token=${ACCESS_TOKEN}&include=1`;
+
+            fetch(apiUrl)
+                .then(res => res.json())
+                .then(data => {
+                    const fields = data.fields;
+
+                    // Set Title
+                    document.getElementById('render-title').innerText = fields.title;
+
+                    // 2. Display the Image (mainImage)
+                    if (fields.mainImage && data.includes && data.includes.Asset) {
+                        const assetId = fields.mainImage.sys.id;
+                        const asset = data.includes.Asset.find(a => a.sys.id === assetId);
+                        if (asset && asset.fields.file) {
+                            document.getElementById('render-image-container').innerHTML = 
+                                `<img src="https:${asset.fields.file.url}" class="featured-img" alt="${fields.title}">`;
                         }
+                    }
 
-                        // Render Rich Text Body
-                        if (fields.body && window.contentfulRichTextHtmlRenderer) {
-        					document.getElementById('render-body').innerHTML = 
-                                window.contentfulRichTextHtmlRenderer.documentToHtmlString(fields.body);
+                    // 3. Display the Rich Text Body
+                    const bodyDiv = document.getElementById('render-body');
+                    if (fields.body) {
+                        // Check if the renderer library loaded correctly
+                        if (window.contentfulRichTextHtmlRenderer) {
+                            // Convert the JSON Body into HTML paragraphs
+                            bodyDiv.innerHTML = window.contentfulRichTextHtmlRenderer.documentToHtmlString(fields.body);
+                        } else {
+                            bodyDiv.innerHTML = "<p>Error: Text library failed to load. Check your internet connection.</p>";
                         }
-					})
-					.catch(err => {
-                        console.error("Fetch Error:", err);
-                        document.getElementById('render-title').innerText = "Article Not Found";
-                    });
-			}
-		</script>
-	</body>
+                    } else {
+                        bodyDiv.innerHTML = "<p>This article has no content in the 'body' field.</p>";
+                    }
+                })
+                .catch(err => {
+                    console.error("Contentful Error:", err);
+                    document.getElementById('render-title').innerText = "Article Not Found";
+                });
+        } else {
+            document.getElementById('render-title').innerText = "No ID provided in URL";
+        }
+    </script>
+</body>
 </html>
