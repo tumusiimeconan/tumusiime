@@ -68,46 +68,51 @@
 			</section>
 			
 			<script>
-                const SPACE_ID = 'be0zo8d325rr'; 
-                const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8'; 
-                
-                const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&order=-fields.date`;
+    const SPACE_ID = 'be0zo8d325rr'; 
+    const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8'; 
+    
+    // Added &include=1 so we can get the image data
+    const url = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&content_type=newsPost&order=-fields.date&include=1`;
 
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        const container = document.getElementById('contentful-news-container');
-                        
-                        if (!data.items || data.items.length === 0) {
-                            container.innerHTML = '<p>No news updates found.</p>';
-                            return;
-                        }
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('contentful-news-container');
+            
+            if (!data.items || data.items.length === 0) {
+                container.innerHTML = '<p>No news updates found.</p>';
+                return;
+            }
 
-                        container.innerHTML = data.items.map((item, index) => {
-                            const fields = item.fields;
-                            const assetId = fields.mainImage?.sys?.id;
-                            const asset = data.includes?.Asset?.find(a => a.sys.id === assetId);
-                            const imageUrl = asset ? `https:${asset.fields.file.url}` : 'images/placeholder.jpg';
+            container.innerHTML = data.items.map((item, index) => {
+                const fields = item.fields;
+                const assetId = fields.mainImage?.sys?.id;
+                const asset = data.includes?.Asset?.find(a => a.sys.id === assetId);
+                const imageUrl = asset ? `https:${asset.fields.file.url}` : 'images/placeholder.jpg';
 
-                            const columnClass = (index % 2 === 1) ? '6u$ 12u$(xsmall)' : '6u 12u$(xsmall)';
+                const columnClass = (index % 2 === 1) ? '6u$ 12u$(xsmall)' : '6u 12u$(xsmall)';
 
-                            return `
-                                <article class="${columnClass} news-story">
-                                    <span class="image fit"><img src="${imageUrl}" alt="${fields.title}" /></span>
-                                    <h3>${fields.title}</h3>
-                                    <p>${fields.excerpt}</p>
-                                    <ul class="actions">
-                                        <li><a href="news-detail.html?id=${item.sys.id}" class="button small">Read More</a></li>
-                                    </ul>
-                                </article>
-                            `;
-                        }).join('');
-                    })
-                    .catch(err => {
-                        console.error("Contentful Error:", err);
-                        document.getElementById('contentful-news-container').innerHTML = '<p>Error loading news.</p>';
-                    });
-            </script>
+                // Extracting a text preview from the Rich Text 'body' field
+                const bodyContent = fields.body?.content[0]?.content[0]?.value || "";
+                const preview = bodyContent.length > 120 ? bodyContent.substring(0, 120) + "..." : bodyContent;
+
+                return `
+                    <article class="${columnClass} news-story">
+                        <span class="image fit"><img src="${imageUrl}" alt="${fields.title}" /></span>
+                        <h3>${fields.title}</h3>
+                        <p>${preview}</p>
+                        <ul class="actions">
+                            <li><a href="news-detail.html?id=${item.sys.id}" class="button small">Read More</a></li>
+                        </ul>
+                    </article>
+                `;
+            }).join('');
+        })
+        .catch(err => {
+            console.error("Contentful Error:", err);
+            document.getElementById('contentful-news-container').innerHTML = '<p>Error loading news.</p>';
+        });
+</script>
 
             <section id="projects">
 				<h2>Featured Projects</h2>
