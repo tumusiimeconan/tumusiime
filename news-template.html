@@ -1,17 +1,182 @@
 <!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Full Story | Tumu Siime</title>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" href="css/style.css" />
-	</head>
-	<body style="background: #fff; color: #333;">
-		<div style="max-width: 800px; margin: 4em auto; padding: 0 2em;">
-			<a href="index.html#news">← Back to News</a>
-			<hr />
-			<h1>Full Story Headline Goes Here</h1>
-			<img src="images/news_thumb1.jpg" style="width: 100%; border-radius: 10px;" />
-			<p style="margin-top: 2em;">Write your full article content here. You can add as many paragraphs as needed.</p>
-		</div>
-	</body>
+<html lang="en">
+<head>
+    <title>Article | Fifth Official</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary-color: #1e3a8a; /* Deep Navy */
+            --accent-color: #10b981;  /* Emerald Green */
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-body: #f3f4f6;
+        }
+
+        body { 
+            font-family: 'Georgia', serif; /* Serif font for a news feel */
+            line-height: 1.8; 
+            color: var(--text-main); 
+            background-color: var(--bg-body); 
+            margin: 0; 
+        }
+
+        /* Top Navigation */
+        .nav-bar {
+            background: var(--primary-color);
+            padding: 15px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .article-container { 
+            max-width: 800px; 
+            margin: 40px auto; 
+            background: #fff; 
+            padding: 50px;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Header Colors */
+        #articleContent h1 { 
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 3em; 
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px; 
+            color: var(--primary-color); /* Navy Blue Header */
+        }
+
+        .meta-info {
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--accent-color); /* Green for Date/Author */
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .featured-image { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 8px; 
+            margin-bottom: 35px;
+        }
+
+        /* Quotation / Excerpt Styling */
+        blockquote {
+            font-family: 'Segoe UI', sans-serif;
+            font-style: italic;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            border-left: 5px solid var(--accent-color);
+            margin: 40px 0;
+            padding: 10px 30px;
+            background: #f0fdf4;
+            position: relative;
+        }
+
+        blockquote::before {
+            content: '“';
+            font-size: 4em;
+            color: var(--accent-color);
+            opacity: 0.3;
+            position: absolute;
+            left: 10px;
+            top: -20px;
+        }
+
+        .article-body { 
+            font-size: 1.2em; 
+            white-space: pre-wrap; 
+        }
+
+        /* Highlighted Stand-out Text */
+        .stand-out {
+            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .article-container { padding: 25px; margin: 0; }
+            #articleContent h1 { font-size: 2.2em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-bar">
+        <a href="index.html">← Back to News Feed</a>
+    </div>
+
+    <div class="article-container">
+        <div id="articleContent">
+            <p>Loading the latest updates...</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAcA7nenT5Owf9PRK_wyXhO_Lf-kJzR6PE",
+            authDomain: "realtumusiime.firebaseapp.com",
+            projectId: "realtumusiime",
+            storageBucket: "realtumusiime.firebasestorage.app",
+            messagingSenderId: "20793631740",
+            appId: "1:20793631740:web:817fa9864ca9e8bae50879"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+
+        async function loadArticle() {
+            if (!articleId) return;
+
+            const docRef = doc(db, "news", articleId);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                
+                let displayDate = data.createdAt?.toDate ? 
+                    data.createdAt.toDate().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric'}) : "Recent";
+
+                // To use the "Stand out" or "Quotes" feature, 
+                // you can wrap text in your Firestore 'body' with specific markers 
+                // but for now, we'll display the body normally.
+                let formattedBody = data.body || '';
+
+                document.getElementById('articleContent').innerHTML = `
+                    <div class="meta-info">${displayDate} • Sports Desk</div>
+                    <h1>${data.Title}</h1>
+                    
+                    ${data.imageUrl ? `<img src="${data.imageUrl}" class="featured-image">` : ''}
+
+                    <div class="article-body">${formattedBody}</div>
+                `;
+            }
+        }
+        loadArticle();
+    </script>
+</body>
 </html>
