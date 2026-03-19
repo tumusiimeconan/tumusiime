@@ -64,6 +64,7 @@
 					<ul>
 						<li><a href="#one">About</a></li>
 						<li><a href="#news">News</a></li>
+						<li><a href="#quiz">The Quiz</a></li>
 						<li><a href="#projects">Projects</a></li>
 						<li><a href="#tsolhub">TsolHub</a></li>
 						<li><a href="#consultancy">Consultancy</a></li>
@@ -96,6 +97,23 @@
 				</div>
 			</section>
 
+			<section id="quiz">
+				<h2>Fifth Official Football Quiz</h2>
+				<div class="row">
+					<article class="4u 12u$(xsmall) work-item">
+						<span class="image fit thumb"><img src="https://i.postimg.cc/XqQKbSyT/Fifth_Official_Football_Quiz_Tournament_Prize.png" alt="Fifth Official Football Quiz Tournament Prize" /></span>
+					</article>
+					<article class="4u 12u$(xsmall) work-item">
+						<span class="image fit thumb"><img src="https://i.postimg.cc/XqQKbSC4/Tumu_Siime_Host_of_The_Fifth_Official_Football_Quiz.png" alt="Tumu Siime - Host of The Fifth Official Football Quiz.png" /></span>
+					</article>
+					<article class="4u$ 12u$(xsmall) work-item">
+						<span class="image fit thumb"><img src="https://i.postimg.cc/1XJ0QhNk/Taremwa_Constantine_Panelist.png" alt="Taremwa Constantine - Panelist Fifth Official Football Quiz.png" /></span>
+					</article>
+				</div>
+				<ul class="actions">
+					<li><a href="fifth-official-football-quiz-tournament.html" class="button special">Follow the quiz here</a></li>
+				</ul>
+			</section>
 			<section id="projects">
 				<h2>Featured Projects</h2>
 				<div class="row">
@@ -245,9 +263,9 @@
 				</div>
 			</section>
 		</div>
+
 <script type="module">
 			import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-			// Added 'orderBy' to the imports
 			import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 			const firebaseConfig = {
@@ -263,8 +281,6 @@
 			const db = getFirestore(app);
 			const newsFeed = document.getElementById('newsFeed');
 
-			// Updated query to order by "createdAt" descending (newest first)
-			// Note: If you use a different field name for the date in Firestore, change "createdAt" below.
 			const q = query(collection(db, "news"), orderBy("createdAt", "desc"));
 
 			onSnapshot(q, (snapshot) => {
@@ -277,7 +293,6 @@
 					
 					const thumbUrl = data.imageUrl || 'https://via.placeholder.com/400x250?text=No+Image';
 
-					// Logic for 3-column grid (4u) and row clearing ($)
 					const gridClass = (count % 3 === 0) ? "4u$ 12u$(xsmall)" : "4u 12u$(xsmall)";
 
 					newsFeed.innerHTML += `
