@@ -245,10 +245,10 @@
 				</div>
 			</section>
 		</div>
-
-		<script type="module">
+<script type="module">
 			import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-			import { getFirestore, collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+			// Added 'orderBy' to the imports
+			import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 			const firebaseConfig = {
 				apiKey: "AIzaSyAcA7nenT5Owf9PRK_wyXhO_Lf-kJzR6PE",
@@ -263,18 +263,25 @@
 			const db = getFirestore(app);
 			const newsFeed = document.getElementById('newsFeed');
 
-			onSnapshot(query(collection(db, "news")), (snapshot) => {
+			// Updated query to order by "createdAt" descending (newest first)
+			// Note: If you use a different field name for the date in Firestore, change "createdAt" below.
+			const q = query(collection(db, "news"), orderBy("createdAt", "desc"));
+
+			onSnapshot(q, (snapshot) => {
 				newsFeed.innerHTML = "";
+				let count = 0;
 				snapshot.forEach((doc) => {
 					const data = doc.data();
 					const docId = doc.id;
+					count++;
 					
-					// Thumbnail fallback if imageUrl is missing
 					const thumbUrl = data.imageUrl || 'https://via.placeholder.com/400x250?text=No+Image';
 
-					// Injects tiles using the site's existing article classes
+					// Logic for 3-column grid (4u) and row clearing ($)
+					const gridClass = (count % 3 === 0) ? "4u$ 12u$(xsmall)" : "4u 12u$(xsmall)";
+
 					newsFeed.innerHTML += `
-						<article class="6u 12u$(xsmall) news-story">
+						<article class="${gridClass} news-story">
 							<a href="news-template.html?id=${docId}" class="news-link">
 								<div class="news-card">
 									<span class="image fit"><img src="${thumbUrl}" alt="News Image"></span>
