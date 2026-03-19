@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Fifth Official Football Quiz - Standings</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css" /> <style>
+        body { background-color: #f4f4f4; color: #333; }
+        #main-standings { padding: 4em 0; max-width: 900px; margin: auto; }
+        
+        .group-card { 
+            background: linear-gradient(135deg, #0f2a20 0%, #1e4d3a 100%);
+            border-radius: 15px; 
+            padding: 20px; 
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .group-label {
+            background: #e0e0e0;
+            color: #1e4d3a;
+            padding: 8px 40px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.5em;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        th { color: #fff; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; padding: 10px; border: none !important; text-align: center; }
+        .text-left { text-align: left !important; }
+
+        tr.team-row { background: rgba(255,255,255,0.1); transition: 0.3s; }
+        tr.team-row:hover { background: rgba(255,255,255,0.2); }
+        
+        td { color: #fff; padding: 12px; font-size: 1.1em; text-align: center; border: none !important; }
+        .pos-num { font-weight: bold; width: 50px; }
+        .team-name { font-weight: 600; font-size: 1.2em; text-align: left; }
+        .pts-val { font-weight: 800; color: #fff; font-size: 1.3em; }
+
+        @media screen and (max-width: 480px) {
+            .group-label { font-size: 1.1em; padding: 5px 25px; }
+            td, th { padding: 6px; font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-standings" class="container">
+        <header class="major" style="text-align: center; margin-bottom: 3em;">
+            <h1 style="color: #1e4d3a;">Tournament Standings</h1>
+            <p>5th Official Football Quiz</p>
+            <a href="index.html" class="button small">Back to Home</a>
+        </header>
+
+        <div id="all-groups">
+            <p style="text-align: center;">Syncing live scores from the pitch...</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAcA7nenT5Owf9PRK_wyXhO_Lf-kJzR6PE",
+            authDomain: "realtumusiime.firebaseapp.com",
+            projectId: "realtumusiime",
+            storageBucket: "realtumusiime.firebasestorage.app",
+            messagingSenderId: "20793631740",
+            appId: "1:20793631740:web:817fa9864ca9e8bae50879"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const groupsContainer = document.getElementById('all-groups');
+        const groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+        groups.forEach(letter => {
+            // 1. Create the Visual Shell for each group
+            const groupSection = document.createElement('div');
+            groupSection.className = 'group-card';
+            groupSection.innerHTML = `
+                <center><div class="group-label">Group ${letter}</div></center>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="pos-num">Pos.</th>
+                            <th class="text-left">Team</th>
+                            <th>P</th><th>W</th><th>D</th><th>L</th><th>PTS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="group-${letter}-rows"></tbody>
+                </table>
+            `;
+            groupsContainer.appendChild(groupSection);
+
+            // 2. Connect to Firestore Collection for this specific group
+            // Collection names: standings_group_A, standings_group_B, etc.
+            const q = query(collection(db, `standings_group_${letter}`), orderBy("pts", "desc"));
+            
+            onSnapshot(q, (snapshot) => {
+                const tbody = document.getElementById(`group-${letter}-rows`);
+                tbody.innerHTML = "";
+                let rank = 1;
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    tbody.innerHTML += `
+                        <tr class="team-row">
+                            <td class="pos-num">${rank++}.</td>
+                            <td class="team-name">${data.team}</td>
+                            <td>${data.p}</td>
+                            <td>${data.w}</td>
+                            <td>${data.d}</td>
+                            <td>${data.l}</td>
+                            <td class="pts-val">${data.pts}</td>
+                        </tr>
+                    `;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
