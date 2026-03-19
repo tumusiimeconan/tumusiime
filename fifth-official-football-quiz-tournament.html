@@ -1,65 +1,178 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Fifth Official Football Quiz - Standings</title>
+    <title>Tournament Standings | Fifth Official Football Quiz</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css" /> <style>
-        body { background-color: #f4f4f4; color: #333; }
-        #main-standings { padding: 4em 0; max-width: 900px; margin: auto; }
-        
-        .group-card { 
-            background: linear-gradient(135deg, #0f2a20 0%, #1e4d3a 100%);
-            border-radius: 15px; 
-            padding: 20px; 
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        /* Sky Sports Professional Dark Theme */
+        body { 
+            background-color: #0b0d0f; 
+            color: #ffffff;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0;
+        }
+
+        /* NEW: Landscape Cover Image Placeholder */
+        .hero-banner {
+            width: 100%;
+            height: 45vh; /* Landscape proportions */
+            background: #1a1f23 url('https://i.postimg.cc/150s0jRn/Fifth-Official-Banners-linkedin.jpg') no-repeat center center;
+            background-size: cover;
             position: relative;
+            border-bottom: 5px solid #00ff85; /* Sports Neon Green Accent */
         }
-        
-        .group-label {
-            background: #e0e0e0;
-            color: #1e4d3a;
-            padding: 8px 40px;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 1.5em;
-            display: inline-block;
-            margin-bottom: 20px;
+
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(11,13,15,1));
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 30px;
+            text-align: center;
+        }
+
+        .hero-overlay h1 {
+            font-weight: 900;
             text-transform: uppercase;
+            font-size: 4rem;
+            letter-spacing: -2px;
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
-        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-        th { color: #fff; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; padding: 10px; border: none !important; text-align: center; }
-        .text-left { text-align: left !important; }
+        #main-standings { 
+            padding: 20px 15px 60px 15px; 
+            max-width: 1400px; 
+            margin: auto; 
+        }
 
-        tr.team-row { background: rgba(255,255,255,0.1); transition: 0.3s; }
-        tr.team-row:hover { background: rgba(255,255,255,0.2); }
+        .btn-home {
+            background: #00ff85;
+            color: #000 !important;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 10px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 40px;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover { background: #fff; }
+
+        /* 4x2 Grid System for Desktop */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 Columns */
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .group-card { 
+            background: #121619 !important; /* Prevents white background bleed */
+            border-radius: 8px; 
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border: 1px solid #222;
+        }
+
+        .group-header-strip {
+            background: linear-gradient(90deg, #003a24 0%, #121619 100%);
+            padding: 15px 20px;
+            border-bottom: 2px solid #00ff85;
+        }
+
+        .group-label {
+            font-weight: 900;
+            font-size: 1.6em;
+            text-transform: uppercase;
+            color: #00ff85;
+            margin: 0;
+        }
+
+        /* Table CSS to fix White-on-White */
+        table { 
+            width: 100% !important; 
+            border-collapse: collapse !important; 
+            background: transparent !important;
+        }
+
+        th { 
+            background: #1a1f23 !important;
+            color: #888 !important; 
+            text-transform: uppercase; 
+            font-size: 0.75em; 
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 12px 10px !important; 
+            border: none !important;
+        }
+
+        .text-left { text-align: left !important; padding-left: 20px !important; }
+
+        tr.team-row { 
+            background: transparent !important;
+            border-bottom: 1px solid #222 !important;
+            transition: 0.2s;
+        }
+
+        tr.team-row:hover { background: rgba(0, 255, 133, 0.05) !important; }
+
+        td { 
+            color: #ffffff !important; 
+            padding: 15px 10px !important; 
+            font-size: 1.1em; 
+            font-weight: 600;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        .pos-num { color: #555 !important; width: 40px; font-weight: 800; }
         
-        td { color: #fff; padding: 12px; font-size: 1.1em; text-align: center; border: none !important; }
-        .pos-num { font-weight: bold; width: 50px; }
-        .team-name { font-weight: 600; font-size: 1.2em; text-align: left; }
-        .pts-val { font-weight: 800; color: #fff; font-size: 1.3em; }
+        /* Neon Highlight for Points */
+        .pts-col { 
+            background: rgba(0, 255, 133, 0.05) !important;
+            font-weight: 900; 
+            color: #00ff85 !important;
+        }
 
-        @media screen and (max-width: 480px) {
-            .group-label { font-size: 1.1em; padding: 5px 25px; }
-            td, th { padding: 6px; font-size: 0.9em; }
+        /* Responsive Settings */
+        @media (max-width: 992px) {
+            .groups-grid { grid-template-columns: 1fr; } /* Stacks to 1 column on mobile */
+            .hero-banner { height: 30vh; }
+            .hero-overlay h1 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            td, th { padding: 10px 5px !important; font-size: 0.85em; }
+            .group-label { font-size: 1.2em; }
         }
     </style>
 </head>
 <body>
 
-    <div id="main-standings" class="container">
-        <header class="major" style="text-align: center; margin-bottom: 3em;">
-            <h1 style="color: #1e4d3a;">Tournament Standings</h1>
-            <p>5th Official Football Quiz</p>
-            <a href="index.html" class="button small">Back to Home</a>
-        </header>
-
-        <div id="all-groups">
-            <p style="text-align: center;">Syncing live scores from the pitch...</p>
+    <div class="hero-banner">
+        <div class="hero-overlay">
+            <p style="color: #00ff85; font-weight: bold; letter-spacing: 3px; margin-bottom: 5px;">LIVE UPDATES</p>
+            <h1>Standings & Live Tables</h1>
         </div>
+    </div>
+
+    <div id="main-standings" class="container">
+        <center>
+            <a href="index.html" class="btn-home">← Return to Hub</a>
+        </center>
+
+        <div class="groups-grid" id="all-groups">
+            </div>
     </div>
 
     <script type="module">
@@ -81,43 +194,51 @@
         const groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
         groups.forEach(letter => {
-            // 1. Create the Visual Shell for each group
             const groupSection = document.createElement('div');
             groupSection.className = 'group-card';
             groupSection.innerHTML = `
-                <center><div class="group-label">Group ${letter}</div></center>
+                <div class="group-header-strip">
+                    <h2 class="group-label">Group ${letter}</h2>
+                </div>
                 <table>
                     <thead>
                         <tr>
-                            <th class="pos-num">Pos.</th>
-                            <th class="text-left">Team</th>
-                            <th>P</th><th>W</th><th>D</th><th>L</th><th>PTS</th>
+                            <th class="pos-num">#</th>
+                            <th class="text-left">TEAM</th>
+                            <th>P</th><th>W</th><th>D</th><th>L</th><th class="pts-col">PTS</th>
                         </tr>
                     </thead>
-                    <tbody id="group-${letter}-rows"></tbody>
+                    <tbody id="group-${letter}-rows">
+                        <tr><td colspan="7" style="color:#444; padding: 40px !important;">Connecting to Server...</td></tr>
+                    </tbody>
                 </table>
             `;
             groupsContainer.appendChild(groupSection);
 
-            // 2. Connect to Firestore Collection for this specific group
-            // Collection names: standings_group_A, standings_group_B, etc.
+            // Fetch data from Firestore for each group
             const q = query(collection(db, `standings_group_${letter}`), orderBy("pts", "desc"));
             
             onSnapshot(q, (snapshot) => {
                 const tbody = document.getElementById(`group-${letter}-rows`);
                 tbody.innerHTML = "";
+                
+                if (snapshot.empty) {
+                    tbody.innerHTML = "<tr><td colspan='7' style='padding:40px !important; color:#333; font-style:italic;'>No team data reported for this group.</td></tr>";
+                    return;
+                }
+
                 let rank = 1;
                 snapshot.forEach(doc => {
                     const data = doc.data();
                     tbody.innerHTML += `
                         <tr class="team-row">
-                            <td class="pos-num">${rank++}.</td>
-                            <td class="team-name">${data.team}</td>
-                            <td>${data.p}</td>
-                            <td>${data.w}</td>
-                            <td>${data.d}</td>
-                            <td>${data.l}</td>
-                            <td class="pts-val">${data.pts}</td>
+                            <td class="pos-num">${rank++}</td>
+                            <td class="text-left" style="color:#fff !important; font-weight:700;">${data.team || doc.id}</td>
+                            <td>${data.p || 0}</td>
+                            <td>${data.w || 0}</td>
+                            <td>${data.d || 0}</td>
+                            <td>${data.l || 0}</td>
+                            <td class="pts-col">${data.pts || 0}</td>
                         </tr>
                     `;
                 });
