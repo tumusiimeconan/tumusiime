@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>All News | Tumu Siime</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        body { background: #f4f7f6; font-family: 'Segoe UI', sans-serif; }
+        .header-bar { background: #1e3a8a; padding: 40px 0; color: white; text-align: center; margin-bottom: 40px; }
+        .news-archive { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        
+        /* Horizontal List Style */
+        .archive-item {
+            background: white;
+            display: flex;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        .archive-item:hover { transform: scale(1.01); }
+        .archive-img { width: 300px; min-width: 300px; height: 200px; object-fit: cover; }
+        .archive-details { padding: 25px; display: flex; flex-direction: column; justify-content: center; }
+        .archive-details h2 { margin-top: 0; color: #1e3a8a; font-size: 1.5em; }
+        .archive-details p { color: #666; margin-bottom: 15px; }
+        .btn-view { color: #10b981; font-weight: bold; text-decoration: none; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            .archive-item { flex-direction: column; }
+            .archive-img { width: 100%; height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <h1>News Archive</h1>
+        <a href="index.html" style="color: #10b981; text-decoration: none;">← Back to Home</a>
+    </div>
+
+    <div class="news-archive" id="fullArchive">
+        <p>Fetching stories...</p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAcA7nenT5Owf9PRK_wyXhO_Lf-kJzR6PE",
+            authDomain: "realtumusiime.firebaseapp.com",
+            projectId: "realtumusiime",
+            storageBucket: "realtumusiime.firebasestorage.app",
+            messagingSenderId: "20793631740",
+            appId: "1:20793631740:web:817fa9864ca9e8bae50879"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const archive = document.getElementById('fullArchive');
+
+        const q = query(collection(db, "news"), orderBy("createdAt", "desc"));
+
+        onSnapshot(q, (snapshot) => {
+            archive.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const thumbUrl = data.imageUrl || 'https://via.placeholder.com/400x250';
+                archive.innerHTML += `
+                    <div class="archive-item">
+                        <img src="${thumbUrl}" class="archive-img">
+                        <div class="archive-details">
+                            <h2>${data.Title}</h2>
+                            <p>${data.body.substring(0, 150)}...</p>
+                            <a href="news-template.html?id=${doc.id}" class="btn-view">Read Full Story →</a>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
