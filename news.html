@@ -1,47 +1,70 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-    <title>All News | Tumu Siime</title>
+    <title>News Archive | Tumu Siime</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
-        body { background: #f4f7f6; font-family: 'Segoe UI', sans-serif; }
-        .header-bar { background: #1e3a8a; padding: 40px 0; color: white; text-align: center; margin-bottom: 40px; }
+        body { background: #f4f7f6; font-family: 'Segoe UI', sans-serif; line-height: 1.6; }
+        .header-bar { background: #1e3a8a; padding: 60px 0; color: white; text-align: center; margin-bottom: 40px; }
+        .header-bar h1 { font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        
         .news-archive { max-width: 1000px; margin: 0 auto; padding: 20px; }
         
-        /* Horizontal List Style */
         .archive-item {
             background: white;
             display: flex;
-            margin-bottom: 25px;
-            border-radius: 8px;
+            margin-bottom: 30px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
         }
         .archive-item:hover { transform: scale(1.01); }
-        .archive-img { width: 300px; min-width: 300px; height: 200px; object-fit: cover; }
-        .archive-details { padding: 25px; display: flex; flex-direction: column; justify-content: center; }
-        .archive-details h2 { margin-top: 0; color: #1e3a8a; font-size: 1.5em; }
-        .archive-details p { color: #666; margin-bottom: 15px; }
-        .btn-view { color: #10b981; font-weight: bold; text-decoration: none; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; }
+        
+        .archive-img { width: 350px; min-width: 350px; height: 240px; object-fit: cover; }
+        
+        .archive-details { padding: 30px; display: flex; flex-direction: column; justify-content: center; }
+        
+        .publish-date {
+            color: #10b981;
+            font-size: 0.85em;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .archive-details h2 { margin-top: 0; color: #1e3a8a; font-size: 1.8em; font-weight: 700; }
+        .archive-details p { color: #666; font-size: 1.05em; margin-bottom: 20px; }
+        
+        .btn-view { 
+            color: #10b981; 
+            font-weight: 800; 
+            text-decoration: none !important; 
+            text-transform: uppercase; 
+            font-size: 0.9em; 
+            letter-spacing: 1px; 
+            transition: color 0.3s;
+        }
+        .btn-view:hover { color: #1e3a8a; }
 
         @media (max-width: 768px) {
             .archive-item { flex-direction: column; }
-            .archive-img { width: 100%; height: 200px; }
+            .archive-img { width: 100%; min-width: 100%; height: 220px; }
         }
     </style>
 </head>
 <body>
 
     <div class="header-bar">
-        <h1>News Archive</h1>
-        <a href="index.html" style="color: #10b981; text-decoration: none;">← Back to Home</a>
+        <h1>Latest Updates</h1>
+        <a href="index.html" style="color: #10b981; text-decoration: none; font-weight: bold;">← Back to Home</a>
     </div>
 
     <div class="news-archive" id="fullArchive">
-        <p>Fetching stories...</p>
+        <p style="text-align: center;">Loading stories...</p>
     </div>
 
     <script type="module">
@@ -68,12 +91,18 @@
             snapshot.forEach((doc) => {
                 const data = doc.data();
                 const thumbUrl = data.imageUrl || 'https://via.placeholder.com/400x250';
+                
+                // Date Formatting
+                let displayDate = data.createdAt?.toDate ? 
+                    data.createdAt.toDate().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric'}) : "Recently Published";
+
                 archive.innerHTML += `
                     <div class="archive-item">
                         <img src="${thumbUrl}" class="archive-img">
                         <div class="archive-details">
+                            <span class="publish-date">Published on ${displayDate}</span>
                             <h2>${data.Title}</h2>
-                            <p>${data.body.substring(0, 150)}...</p>
+                            <p>${data.body.substring(0, 180)}...</p>
                             <a href="news-template.html?id=${doc.id}" class="btn-view">Read Full Story →</a>
                         </div>
                     </div>
