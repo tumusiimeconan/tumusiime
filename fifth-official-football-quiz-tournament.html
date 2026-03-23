@@ -1,9 +1,44 @@
+
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
     <title>Tournament Standings | Fifth Official Football Quiz</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Official live standings for The Fifth Official Football Tournament Quiz. Track your favorite teams across Groups A-H in Kampala's premier football trivia competition.">
+    <meta name="keywords" content="Fifth Official Quiz, Football Tournament Uganda, TsolHub, Tumu Siime, Football Standings Kampala">
+    <meta name="author" content="TsolHub International">
+
+    <meta property="og:title" content="Fifth Official Quiz Live Tables">
+    <meta property="og:description" content="Real-time group standings and tournament results. Follow the action live.">
+    <meta property="og:image" content="https://i.postimg.cc/150s0jRn/Fifth-Official-Banners-linkedin.jpg">
+    <meta property="og:url" content="https://realtumusiime.web.app/standings">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fifth Official Football Quiz Standings">
+    <meta name="twitter:description" content="Live updates and group rankings for the Fifth Official Tournament.">
+    <meta name="twitter:image" content="https://i.postimg.cc/150s0jRn/Fifth-Official-Banners-linkedin.jpg">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      "name": "The Fifth Official Football Tournament Quiz",
+      "description": "A premier football trivia tournament in Uganda.",
+      "organizer": {
+        "@type": "Organization",
+        "name": "TsolHub International",
+        "url": "https://realtumusiime.web.app"
+      },
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": {
+        "@type": "Place",
+        "name": "Kampala, Uganda"
+      }
+    }
+    </script>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css" />
     <style>
@@ -15,14 +50,13 @@
             margin: 0;
         }
 
-        /* NEW: Landscape Cover Image Placeholder */
         .hero-banner {
             width: 100%;
-            height: 45vh; /* Landscape proportions */
+            height: 45vh; 
             background: #1a1f23 url('https://i.postimg.cc/150s0jRn/Fifth-Official-Banners-linkedin.jpg') no-repeat center center;
             background-size: cover;
             position: relative;
-            border-bottom: 5px solid #00ff85; /* Sports Neon Green Accent */
+            border-bottom: 5px solid #00ff85; 
         }
 
         .hero-overlay {
@@ -68,16 +102,15 @@
 
         .btn-home:hover { background: #fff; }
 
-        /* 4x2 Grid System for Desktop */
         .groups-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 Columns */
+            grid-template-columns: repeat(2, 1fr); 
             gap: 40px;
             margin-top: 20px;
         }
 
         .group-card { 
-            background: #121619 !important; /* Prevents white background bleed */
+            background: #121619 !important; 
             border-radius: 8px; 
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
@@ -98,7 +131,6 @@
             margin: 0;
         }
 
-        /* Table CSS to fix White-on-White */
         table { 
             width: 100% !important; 
             border-collapse: collapse !important; 
@@ -137,16 +169,14 @@
 
         .pos-num { color: #555 !important; width: 40px; font-weight: 800; }
         
-        /* Neon Highlight for Points */
         .pts-col { 
             background: rgba(0, 255, 133, 0.05) !important;
             font-weight: 900; 
             color: #00ff85 !important;
         }
 
-        /* Responsive Settings */
         @media (max-width: 992px) {
-            .groups-grid { grid-template-columns: 1fr; } /* Stacks to 1 column on mobile */
+            .groups-grid { grid-template-columns: 1fr; } 
             .hero-banner { height: 30vh; }
             .hero-overlay h1 { font-size: 2.5rem; }
         }
@@ -162,7 +192,7 @@
     <div class="hero-banner">
         <div class="hero-overlay">
             <p style="color: #00ff85; font-weight: bold; letter-spacing: 3px; margin-bottom: 5px;">LIVE UPDATES</p>
-            <h1>Standings & Live Tables</h1>
+            <h1>Fifth Official Quiz: Standings</h1>
         </div>
     </div>
 
@@ -209,13 +239,12 @@
                         </tr>
                     </thead>
                     <tbody id="group-${letter}-rows">
-                        <tr><td colspan="7" style="color:#444; padding: 40px !important;">Connecting to Server...</td></tr>
+                        <tr><td colspan="7" style="color:#00ff85; padding: 40px !important;">Connecting to Server...</td></tr>
                     </tbody>
                 </table>
             `;
             groupsContainer.appendChild(groupSection);
 
-            // Fetch data from Firestore for each group
             const q = query(collection(db, `standings_group_${letter}`), orderBy("pts", "desc"));
             
             onSnapshot(q, (snapshot) => {
@@ -223,7 +252,7 @@
                 tbody.innerHTML = "";
                 
                 if (snapshot.empty) {
-                    tbody.innerHTML = "<tr><td colspan='7' style='padding:40px !important; color:#333; font-style:italic;'>No team data reported for this group.</td></tr>";
+                    tbody.innerHTML = "<tr><td colspan='7' style='padding:40px !important; color:#444; font-style:italic;'>Awaiting Match Results...</td></tr>";
                     return;
                 }
 
@@ -247,3 +276,6 @@
     </script>
 </body>
 </html>
+```
+
+Would you like me to generate a **custom favicon** or a **social media post template** you can use to announce that the live standings are now online?
