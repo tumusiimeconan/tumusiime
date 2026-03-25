@@ -8,77 +8,155 @@
     <link rel="stylesheet" href="css/style.css" />
     
     <style>
-        #main-article { max-width: 800px; margin: 0 auto; padding: 50px 20px; font-family: "Source Sans Pro", sans-serif; }
-        .back-btn { display: inline-block; margin-bottom: 30px; color: #49bf9d; font-weight: bold; text-decoration: none; }
-        .featured-img { width: 100%; border-radius: 8px; margin-bottom: 30px; height: auto; display: block; }
-        #render-body { line-height: 1.8; color: #333; font-size: 1.15em; }
-        #render-body p { margin-bottom: 1.5em; }
-        h1 { margin-bottom: 20px; font-weight: 700; }
+        /* General Layout */
+        #main-article { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 30px 20px; 
+            font-family: "Source Sans Pro", sans-serif; 
+        }
+        
+        .back-btn { 
+            display: inline-block; 
+            margin-bottom: 25px; 
+            color: #10b981; 
+            font-weight: bold; 
+            text-decoration: none; 
+            transition: color 0.3s;
+        }
+        .back-btn:hover { color: #1e3a8a; text-decoration: none; }
+
+        .featured-img { 
+            width: 100%; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            height: auto; 
+            display: block; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1#render-title { 
+            margin-bottom: 15px; 
+            font-weight: 800; 
+            color: #1e3a8a;
+            line-height: 1.2;
+        }
+
+        /* TIGHT TYPOGRAPHY (The Fix for excessive spacing) */
+        #render-body { 
+            line-height: 1.6; 
+            color: #333; 
+            font-size: 1.15em; 
+        }
+
+        #render-body p { 
+            margin-bottom: 12px !important; /* Reduced from 1.5em */
+        }
+
+        #render-body h3 { 
+            margin-top: 25px !important; 
+            margin-bottom: 10px !important; 
+            font-weight: 700;
+            color: #1e3a8a;
+            border-bottom: 2px solid #10b981;
+            display: inline-block;
+            padding-bottom: 2px;
+        }
+
+        #render-body ul {
+            margin-top: 5px !important;
+            margin-bottom: 15px !important;
+            padding-left: 25px;
+        }
+
+        #render-body li {
+            margin-bottom: 5px !important;
+        }
+
+        #render-body blockquote {
+            margin: 20px 0 !important;
+            padding: 15px 25px;
+            border-left: 5px solid #10b981;
+            background: #f9f9f9;
+            font-style: italic;
+            color: #555;
+            line-height: 1.5;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        /* Compact Table Overrides */
+        .table { margin-bottom: 20px !important; }
+        .table th, .table td { padding: 8px !important; }
+
+        @media (max-width: 736px) {
+            #main-article { padding: 20px 15px; }
+            h1#render-title { font-size: 1.8em; }
+        }
     </style>
 </head>
 <body>
 
     <div id="main-article">
-        <a href="index.html#news" class="back-btn">&larr; Back to News</a>
+        <a href="index.html#news" class="back-btn">&larr; Back to News Feed</a>
         
-        <h1 id="render-title">Loading...</h1>
+        <h1 id="render-title">Loading Article...</h1>
         
         <div id="render-image-container"></div>
         <div id="render-body"></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@contentful/rich-text-html-renderer@15.12.1/dist/rich-text-html-renderer.browser.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    <script>
-        const SPACE_ID = 'be0zo8d325rr';
-        const ACCESS_TOKEN = 'uqXfxvVFw_-jamkuPpoPCKkFMBPxs5ERl_Bj0YrPRL8';
-        
-        // Get the ID from the URL (index.html?id=xxxx)
+        // Your specific project config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAcA7nenT5Owf9PRK_wyXhO_Lf-kJzR6PE",
+            authDomain: "realtumusiime.firebaseapp.com",
+            projectId: "realtumusiime",
+            storageBucket: "realtumusiime.firebasestorage.app",
+            messagingSenderId: "20793631740",
+            appId: "1:20793631740:web:817fa9864ca9e8bae50879"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Get Article ID from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const entryId = urlParams.get('id');
+        const articleId = urlParams.get('id');
 
-        if (entryId) {
-            // Fetch the specific news entry plus its associated image (include=1)
-            const apiUrl = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries/${entryId}?access_token=${ACCESS_TOKEN}&include=1`;
+        if (articleId) {
+            const docRef = doc(db, "news", articleId);
+            
+            getDoc(docRef).then((docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
 
-            fetch(apiUrl)
-                .then(res => res.json())
-                .then(data => {
-                    const fields = data.fields;
+                    // Update Title
+                    document.getElementById('render-title').innerText = data.Title || "Untitled Article";
 
-                    // Set Title
-                    document.getElementById('render-title').innerText = fields.title;
-
-                    // 2. Display the Image (mainImage)
-                    if (fields.mainImage && data.includes && data.includes.Asset) {
-                        const assetId = fields.mainImage.sys.id;
-                        const asset = data.includes.Asset.find(a => a.sys.id === assetId);
-                        if (asset && asset.fields.file) {
-                            document.getElementById('render-image-container').innerHTML = 
-                                `<img src="https:${asset.fields.file.url}" class="featured-img" alt="${fields.title}">`;
-                        }
+                    // Update Image
+                    if (data.imageUrl) {
+                        document.getElementById('render-image-container').innerHTML = 
+                            `<img src="${data.imageUrl}" class="featured-img" alt="${data.Title}">`;
                     }
 
-                    // 3. Display the Rich Text Body
-                    const bodyDiv = document.getElementById('render-body');
-                    if (fields.body) {
-                        // Check if the renderer library loaded correctly
-                        if (window.contentfulRichTextHtmlRenderer) {
-                            // Convert the JSON Body into HTML paragraphs
-                            bodyDiv.innerHTML = window.contentfulRichTextHtmlRenderer.documentToHtmlString(fields.body);
-                        } else {
-                            bodyDiv.innerHTML = "<p>Error: Text library failed to load. Check your internet connection.</p>";
-                        }
-                    } else {
-                        bodyDiv.innerHTML = "<p>This article has no content in the 'body' field.</p>";
-                    }
-                })
-                .catch(err => {
-                    console.error("Contentful Error:", err);
+                    // Update Body with HTML Rendering
+                    // Using .innerHTML allows the tags in your Firestore body to render
+                    document.getElementById('render-body').innerHTML = data.body || "<p>No content available.</p>";
+
+                } else {
                     document.getElementById('render-title').innerText = "Article Not Found";
-                });
+                }
+            }).catch((error) => {
+                console.error("Error fetching article:", error);
+                document.getElementById('render-title').innerText = "Error Loading Content";
+            });
         } else {
-            document.getElementById('render-title').innerText = "No ID provided in URL";
+            document.getElementById('render-title').innerText = "No Article Specified";
         }
     </script>
 </body>
