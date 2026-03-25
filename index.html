@@ -27,7 +27,6 @@
 		<style>
 			/* SIDEBAR MENU ADJUSTMENTS */
 			#header .inner {
-				/* Increased padding to push content below the face on desktop */
 				padding-top: 52vh !important; 
 				padding-bottom: 2vh !important;
 				display: flex;
@@ -428,14 +427,20 @@
 					let displayDate = data.createdAt?.toDate ? 
 						data.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : "Recent";
 
+					// Create a clean text snippet by removing HTML tags from the body
+					const tempDiv = document.createElement("div");
+					tempDiv.innerHTML = data.body || "";
+					const plainText = tempDiv.textContent || tempDiv.innerText || "";
+					const snippet = plainText.length > 150 ? plainText.substring(0, 150) + "..." : plainText;
+
 					newsFeed.innerHTML += `
 						<article class="news-card">
 							<img src="${thumbUrl}" alt="News Image">
 							<div class="card-content">
 								<span class="timestamp">${displayDate}</span>
 								<h3>${data.Title || 'Untitled'}</h3>
-								<p class="snippet">${data.body || ''}</p>
-								<a href="news-template.html?id=${docId}" class="read-more-btn">Read Article</a>
+								<p class="snippet">${snippet}</p>
+								<a href="news-detail.html?id=${docId}" class="read-more-btn">Read Article</a>
 							</div>
 						</article>
 					`;
