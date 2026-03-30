@@ -182,6 +182,40 @@
 				border: none;
 			}
 
+            /* Custom Styling for the Right-aligned Socials */
+            .contact-socials {
+                margin-top: 2em;
+                padding-left: 0;
+                list-style: none;
+            }
+            .contact-socials li {
+                display: inline-block;
+                margin-right: 15px;
+            }
+            .contact-socials li a {
+                font-size: 1.5em;
+                color: #49bf9d; 
+                transition: color 0.3s ease;
+                border-bottom: none !important;
+            }
+            .contact-socials li a:hover {
+                color: #1e3a8a;
+            }
+            
+            /* TikTok SVG Support for FontAwesome 4.7 */
+            .icon-tiktok::before {
+                content: "";
+                display: inline-block;
+                width: 1em;
+                height: 1em;
+                vertical-align: -0.125em;
+                background-color: currentColor;
+                -webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M448 209.91a210.06 210.06 0 01-122.77-39.25V349.38A162.55 162.55 0 11185 188.31V278.2a74.62 74.62 0 1052.23 71.18V0l88 0a121.18 121.18 0 001.86 22.17h.03a122.18 122.18 0 00108.11 105.1V209.91z'/%3E%3C/svg%3E") no-repeat 50% 50%;
+                mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M448 209.91a210.06 210.06 0 01-122.77-39.25V349.38A162.55 162.55 0 11185 188.31V278.2a74.62 74.62 0 1052.23 71.18V0l88 0a121.18 121.18 0 001.86 22.17h.03a122.18 122.18 0 00108.11 105.1V209.91z'/%3E%3C/svg%3E") no-repeat 50% 50%;
+                -webkit-mask-size: cover;
+                mask-size: cover;
+            }
+
 			@media (max-width: 980px) { .news-grid { grid-template-columns: repeat(2, 1fr); } }
 			@media (max-width: 736px) { .news-grid { grid-template-columns: 1fr; } }
 		</style>
@@ -218,7 +252,7 @@
 					<h2 style="font-size: 6em; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 20px; color: #1e3a8a;">ABOUT ME</h2>
 				</header>
 				<p><strong>Media Executive | Creative | Comic</strong></p>
-				<p>I am a versatile media professional and content creator based in Kampala, Uganda, dedicated to shifting narratives through satire, sports, and substantive conversation. As the founder of <strong>TsolHub International</strong>, I lead a team focused on high-impact production, branding, and advertising.</p>
+				<p>I am a Kampala-based media professional and founder of <strong>TsolHub International</strong>, where I lead high-impact production, branding, and advertising. I also serve as a <strong>Lecturer of Digital Arts</strong> at <strong>Limkokwing University of Creative Technology</strong>, bridging the gap between academia and the professional world. Beyond the classroom, I actively mentor emerging talent through the industry-standard <strong>TsolHub Internship Program</strong>, providing hands-on guidance to help the next generation of creators thrive in the modern media landscape.</p>
 			</section>
 
 			<section id="news">
@@ -429,6 +463,15 @@
 								<a href="mailto:your-email@example.com">Contact via Email</a>
 							</li>
 						</ul>
+                        
+                        <ul class="contact-socials">
+                            <li><a href="https://x.com/realTumusiime" class="fa fa-twitter" target="_blank" title="X (Twitter)"></a></li>
+                            <li><a href="https://www.facebook.com/realTumusiime" class="fa fa-facebook" target="_blank" title="Facebook"></a></li>
+                            <li><a href="https://www.instagram.com/real_tumusiime/" class="fa fa-instagram" target="_blank" title="Instagram"></a></li>
+                            <li><a href="https://www.linkedin.com/in/tumusiime-conan-4947ba84/" class="fa fa-linkedin" target="_blank" title="LinkedIn"></a></li>
+                            <li><a href="https://www.tiktok.com/@realtumusiime" class="icon-tiktok" target="_blank" title="TikTok"></a></li>
+                            <li><a href="https://www.youtube.com/@realTumusiime" class="fa fa-youtube-play" target="_blank" title="YouTube"></a></li>
+                        </ul>
 					</div>
 				</div>
 			</section>
