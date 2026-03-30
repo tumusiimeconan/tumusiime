@@ -52,6 +52,7 @@
 				box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 			}
 
+			/* Desktop Dimensions */
 			@media (min-width: 769px) {
 				.cover-photo {
 					height: auto;
@@ -60,6 +61,7 @@
 				}
 			}
 
+			/* Mobile Dimensions */
 			@media (max-width: 768px) {
 				.cover-photo {
 					height: 50vh;
@@ -73,6 +75,7 @@
 			h1 { color: #1e3a8a; font-weight: 800; font-size: 3em; margin-bottom: 0.2em; }
 			.subtitle { color: #49bf9d; font-size: 1.2em; font-weight: 600; margin-bottom: 2em; }
 
+			/* Jump Navigation */
 			.intern-nav {
 				background: #f8fafc;
 				padding: 2.5em;
@@ -87,10 +90,12 @@
 			.intern-nav a { font-weight: 600; text-decoration: none !important; color: #1e3a8a !important; transition: 0.3s; }
 			.intern-nav a:hover { color: #49bf9d !important; padding-left: 5px; }
 
+			/* Detail Sections */
 			.detail-section { padding: 5em 0; border-bottom: 1px solid #f0f0f0; }
 			.detail-section h2 { color: #1e3a8a; font-weight: 800; display: flex; align-items: center; gap: 15px; }
 			.detail-section h2 i { color: #49bf9d; font-size: 1.5em; }
 
+			/* Large 3x1 Image Grid */
 			.image-grid-large {
 				display: grid;
 				grid-template-columns: repeat(3, 1fr);
@@ -107,10 +112,22 @@
 			}
 			.image-grid-large img:hover { transform: scale(1.02); }
 
-			.software-box { background: #1e3a8a; color: #fff; padding: 1.5em; border-radius: 8px; margin: 1.5em 0; }
+			.software-box { 
+				background: #1e3a8a; 
+				color: #fff; 
+				padding: 1.5em; 
+				border-radius: 8px; 
+				margin: 1.5em 0;
+			}
 			.software-box strong { color: #49bf9d; text-transform: uppercase; letter-spacing: 1px; }
 			
-			.gig-guidance { background: #f0fdf4; border-left: 5px solid #49bf9d; padding: 1.5em; margin-top: 2em; border-radius: 0 8px 8px 0; }
+			.gig-guidance { 
+				background: #f0fdf4;
+				border-left: 5px solid #49bf9d; 
+				padding: 1.5em; 
+				margin-top: 2em; 
+				border-radius: 0 8px 8px 0;
+			}
 
 			#footer {
 				position: relative !important;
@@ -158,12 +175,15 @@
 				<div id="film" class="detail-section">
 					<h2><i class="bi bi-camera-reels"></i> Film</h2>
 					<div class="image-grid-large">
-						<img src="https://i.postimg.cc/Dzh622Vp/Tsol_Hub_Filming_Internship_3.jpg" alt="Film">
-						<img src="https://i.postimg.cc/nLx2HH8w/Tsol_Hub_Filming_Internship_jpeg.jpg" alt="Film">
-						<img src="https://i.postimg.cc/vm33Zptv/Tsol-Hub-Filming-Internship-2.jpg" alt="Film">
+						<img src="https://i.postimg.cc/Dzh622Vp/Tsol_Hub_Filming_Internship_3.jpg" alt="TsolHub Film">
+						<img src="https://i.postimg.cc/nLx2HH8w/Tsol_Hub_Filming_Internship_jpeg.jpg" alt="TsolHub Film">
+						<img src="https://i.postimg.cc/vm33Zptv/Tsol-Hub-Filming-Internship-2.jpg" alt="TsolHub Film">
 					</div>
-					<p>Mastery of film involves understanding narrative pacing, advanced color science, and cinematic composition.</p>
+					<p>Mastery of film involves understanding narrative pacing, advanced color science, and cinematic composition. You will learn how to handle professional lighting and high-end cinema workflows for storytelling.</p>
 					<div class="software-box"><strong>Industry Standards:</strong> Adobe Premiere Pro, DaVinci Resolve.</div>
+					<div class="gig-guidance">
+						<strong>Step-by-Step Gig Guidance:</strong> We guide you on creating a Director's Reel, networking with production houses, and bidding for high-value commercial contracts.
+					</div>
 				</div>
 
 				<div id="animation" class="detail-section">
@@ -173,8 +193,81 @@
 						<img src="https://i.postimg.cc/VvdjLqy1/Tsol_Hub_Filming_3D_Animation.jpg" alt="Animation">
 						<img src="https://i.postimg.cc/mkkrH4yK/Tsol-Hub-Filming-3D-Animation-2.jpg" alt="Animation">
 					</div>
-					<p>Bring static worlds to life with character rigging and 2D/3D motion graphics.</p>
-					<div class="software-box"><strong>Industry Standards:</strong> Adobe After Effects, Autodesk Maya</div>
+					<p>Bring static worlds to life. This module covers character rigging, the 12 principles of animation, and creating 2D/3D motion graphics that provide high production value for corporate and entertainment clients.</p>
+					<div class="software-box"><strong>Industry Standards:</strong> Adobe After Effects, Toon Boom Harmony, Autodesk Maya</div>
+					<div class="gig-guidance">
+						<strong>Step-by-Step Gig Guidance:</strong> Learn to package "Explainer Video" services on international platforms and how to source animation gigs globally.
+					</div>
+				</div>
+
+				<div id="graphics" class="detail-section">
+					<h2><i class="bi bi-vector-pen"></i> Graphic Design</h2>
+					<div class="image-grid-large">
+						<img src="https://i.postimg.cc/7YGTb16n/Tsol_Hub_Graphics_Internship.jpg" alt="Graphics">
+						<img src="https://i.postimg.cc/59kCxKxg/Tsol_Hub_Graphics_Internship_2.jpg" alt="Graphics">
+						<img src="https://i.postimg.cc/1RYq979H/Tsol_Hub_Graphics_Internship_3.jpg" alt="Graphics">
+					</div>
+					<p>Advanced mastery covers typography hierarchy, color psychology, and branding fundamentals. Learn to build full visual identities that work seamlessly across digital and print media.</p>
+					<div class="software-box"><strong>Industry Standards:</strong> Adobe Illustrator, Photoshop, Adobe InDesign.</div>
+					<div class="gig-guidance">
+						<strong>Step-by-Step Gig Guidance:</strong> We show you how to pitch brand identity packages to SMEs and build a professional presence to attract premium clients.
+					</div>
+				</div>
+
+				<div id="sound" class="detail-section">
+					<h2><i class="bi bi-mic"></i> Sound Production</h2>
+					<div class="image-grid-large">
+						<img src="https://i.postimg.cc/0jFgj1QP/Tsol_Hub_Sound_Internship.jpg" alt="Sound Production">
+						<img src="https://i.postimg.cc/yxk478VY/Tsol_Hub_Sound_Internship_2.jpg" alt="Sound Production">
+						<img src="https://i.postimg.cc/8cjQTzTK/Tsol_Hub_Sound_Internship_3.jpg" alt="Sound Production">
+					</div>
+					<p>Audio is 50% of the viewing experience. Master the art of high-fidelity recording, foley, sound design, and professional mixing for podcasts and film.</p>
+					<div class="software-box"><strong>Industry Standards:</strong> Pro Tools, Adobe Audition, FL Studio.</div>
+					<div class="gig-guidance">
+						<strong>Step-by-Step Gig Guidance:</strong> Build a "Sound Reel" showcasing before/after audio cleaning. We guide you on finding gigs in podcast editing and commercial sound engineering.
+					</div>
+				</div>
+
+				<div id="photography" class="detail-section">
+					<h2><i class="bi bi-camera"></i> Photography & Videography</h2>
+					<div class="image-grid-large">
+						<img src="https://i.postimg.cc/J4q8j0hF/Tsol_Hub_Photo_Video_Graphy_Internship_3.jpg" alt="Photography">
+						<img src="https://i.postimg.cc/KvNbtjYs/Tsol_Hub_Photo_Video_Graphy_Internship_4.jpg" alt="Photography">
+						<img src="https://i.postimg.cc/ZKcm6nqM/Tsol_Hub_Photo_Video_Graphy_Internship_5.jpg" alt="Photography">
+					</div>
+					<p>Master technical camera systems and professional lighting. Focus on commercial product photography, event coverage, and the technical side of capturing cinematic video content.</p>
+					<div class="software-box"><strong>Industry Standards:</strong> Adobe Lightroom, Cinema Line Cameras.</div>
+					<div class="gig-guidance">
+						<strong>Step-by-Step Gig Guidance:</strong> Learn gear pricing, client contract management, and how to position yourself as a specialized luxury photographer.
+					</div>
+				</div>
+
+				<div id="social" class="detail-section">
+					<h2><i class="bi bi-megaphone"></i> Social Media & Digital Content</h2>
+					<div class="image-grid-large">
+						<img src="https://i.postimg.cc/Y0xS4xZr/Tsol_Hub_Digital_Media_and_Content_Internship_1.jpg" alt="Social Media">
+						<img src="https://i.postimg.cc/tRdJmXTF/Tsol_Hub_Digital_Media_and_Content_Internship_2.jpg" alt="Social Media">
+						<img src="https://i.postimg.cc/ncCzVqTp/Tsol-Hub-Digital-Media-and-Content-Internship-4.jpg" alt="Social Media">
+					</div>
+					<p>Master content algorithms, viral hooks, and data analytics. Learn how to create content that doesn't just look good but drives actual engagement and business results.</p>
+					<div class="software-box"><strong>Industry Standards:</strong> Meta Business Suite, Canva Pro, CapCut (Desktop).</div>
+					<div class="gig-guidance">
+						<strong>Step-by-Step Gig Guidance:</strong> We teach you account management, ROI reporting, and how to pitch for monthly retainer contracts as a Social Media Manager.
+					</div>
+				</div>
+
+				<div id="management" class="detail-section">
+					<h2><i class="bi bi-briefcase"></i> Creative Project Management</h2>
+					<div class="image-grid-large">
+						<img src="https://i.postimg.cc/gc4sbbBF/Tsol_Hub_Creative_Project_Management_Internship_2.jpg" alt="Management">
+						<img src="https://i.postimg.cc/05Zn11Hg/Tsol_Hub_Creative_Project_Management_Internship_3.jpg" alt="Management">
+						<img src="https://i.postimg.cc/65309bFH/Tsol_Hub_Creative_Project_Management_Internship_1.jpg" alt="Management">
+					</div>
+					<p>The business side of creativity. Master the workflow of leading teams, managing production budgets, and balancing quality delivery with tight deadlines.</p>
+					<div class="software-box"><strong>Industry Standards:</strong> Trello, Asana, Monday.com, Slack.</div>
+					<div class="gig-guidance">
+						<strong>Step-by-Step Gig Guidance:</strong> Prepare for agency roles or Lead Creative positions. Focus on client communication, agile management, and project scoping.
+					</div>
 				</div>
 
 				<div id="gamedev" class="detail-section" style="border-bottom: none;">
@@ -184,8 +277,11 @@
 						<img src="https://i.postimg.cc/FKMSQD05/Tsol_Hub_Virtual_Reality_Internship_2.jpg" alt="VR">
 						<img src="https://i.postimg.cc/hGzmwHQn/Tsol_Hub_Virtual_Reality_Internship_3.jpg" alt="VR">
 					</div>
-					<p>Build immersive digital worlds and interactive experiences for VR.</p>
+					<p>Build immersive digital worlds. This section covers 3D modeling for real-time engines, spatial audio design, and scripting interactive experiences for VR.</p>
 					<div class="software-box"><strong>Industry Standards:</strong> Unity, AFrame.</div>
+					<div class="gig-guidance">
+						<strong>Step-by-Step Gig Guidance:</strong> Build interactive prototypes for real estate or education and tap into the global demand for immersive AR/VR experiences.
+					</div>
 				</div>
 
 				<div style="text-align: center; padding: 4em 0;">
