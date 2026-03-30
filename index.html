@@ -215,7 +215,7 @@
 
 			<section id="one">
 				<header class="major">
-					<h2>About Me</h2>
+					<h2 style="font-size: 6em; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 20px; color: #1e3a8a;">ABOUT ME</h2>
 				</header>
 				<p><strong>Media Executive | Creative | Comic</strong></p>
 				<p>I am a versatile media professional and content creator based in Kampala, Uganda, dedicated to shifting narratives through satire, sports, and substantive conversation. As the founder of <strong>TsolHub International</strong>, I lead a team focused on high-impact production, branding, and advertising.</p>
@@ -285,9 +285,42 @@
 						<p style="text-align: center;">Advertising</p>
 					</article>
 				</div>
-				<ul class="actions">
+				
+				<ul class="actions" style="margin-bottom: 3em;">
 					<li><a href="https://tsolhubint.com" target="_blank" class="button">Visit TsolHub</a></li>
 				</ul>
+
+				<div class="row" style="display: flex; align-items: stretch; flex-wrap: wrap;">
+					<div class="6u 12u$(small)" style="display: flex;">
+						<span class="image fit" style="margin: 0; display: flex;">
+							<img src="https://i.postimg.cc/5N5tQHxM/Tsol-Hub-Filming-Internship-Home-Page.jpg" alt="TsolHub Internship Program" style="object-fit: cover; width: 100%; border-radius: 8px;" />
+						</span>
+					</div>
+					<div class="6u$ 12u$(small)" style="display: flex; flex-direction: column; justify-content: space-between; padding-left: 30px;">
+						<div>
+							<h2 style="color: #1e3a8a; margin-top: 0; font-size: 1.8em; font-weight: 900;"><strong>INTERNSHIP AT TSOL HUB</strong></h2>
+							<p style="margin-bottom: 1em;">Are you a university student looking to bridge the gap between theory and the gig economy? Join <strong>TsolHub International</strong> for hands-on experience.</p>
+							
+							<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1em;">
+								<img src="https://i.postimg.cc/wB6bVr83/Tsol-Hub-Internship-Certificate.png" alt="Certificate" style="width: 40px; height: auto;">
+								<p style="font-weight: 600; color: #10b981; margin: 0;">Includes Official Certificate of Proficiency</p>
+							</div>
+							
+							<p style="font-size: 0.9em; line-height: 1.4;">Master your craft in Film, Graphic Design, Animation, Videography, and Creative Management.</p>
+						</div>
+
+						<div style="background: #ffffff; border: 2px solid #1e3a8a; padding: 20px; border-radius: 8px; text-align: center; margin-top: 15px;">
+							<div style="margin-bottom: 15px;">
+								<span style="display: block; font-size: 0.8em; text-transform: uppercase; color: #666; letter-spacing: 1px;">Sign Up Fee</span>
+								<span style="font-size: 3.5em; color: #1e3a8a; font-weight: 900; line-height: 1;">$80</span>
+								<span style="display: block; font-size: 0.9em; color: #10b981; font-weight: bold;">Full 3-Month Duration</span>
+							</div>
+							<ul class="actions" style="margin: 0; display: inline-block;">
+								<li><a href="internship-at-tsolhub.html" class="button special" style="width: 100%; min-width: 200px; background-color: #1e3a8a !important;">APPLY NOW</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
 			</section>
 			
 			<section id="consultancy">
@@ -430,7 +463,6 @@
 					let displayDate = data.createdAt?.toDate ? 
 						data.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : "Recent";
 
-					// FIX: Create a clean text snippet by removing HTML tags from the Firestore body
 					const tempDiv = document.createElement("div");
 					tempDiv.innerHTML = data.body || "";
 					const plainText = tempDiv.textContent || tempDiv.innerText || "";
